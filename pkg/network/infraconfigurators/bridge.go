@@ -63,7 +63,8 @@ func (b *BridgePodNetworkConfigurator) DiscoverPodNetworkInterface(podIfaceName 
 		}
 	}
 
-	b.tapDeviceName = virtnetlink.GenerateTapDeviceName(podIfaceName)
+	b.tapDeviceName = b.vmiSpecIface.Name
+	// virtnetlink.GenerateTapDeviceName(podIfaceName)
 
 	b.vmMac, err = virtnetlink.RetrieveMacAddressFromVMISpecIface(b.vmiSpecIface)
 	if err != nil {
