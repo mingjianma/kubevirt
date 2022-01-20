@@ -270,7 +270,7 @@ type KernelBootContainer struct {
 	// Image that container initrd / kernel files.
 	Image string `json:"image"`
 	// ImagePullSecret is the name of the Docker registry secret required to pull the image. The secret must already exist.
-	//+optional
+	// +optional
 	ImagePullSecret string `json:"imagePullSecret,omitempty"`
 	// Image pull policy.
 	// One of Always, Never, IfNotPresent.
@@ -280,10 +280,10 @@ type KernelBootContainer struct {
 	// +optional
 	ImagePullPolicy v1.PullPolicy `json:"imagePullPolicy,omitempty"`
 	// The fully-qualified path to the kernel image in the host OS
-	//+optional
+	// +optional
 	KernelPath string `json:"kernelPath,omitempty"`
 	// the fully-qualified path to the ramdisk image in the host OS
-	//+optional
+	// +optional
 	InitrdPath string `json:"initrdPath,omitempty"`
 }
 
@@ -471,7 +471,7 @@ type Devices struct {
 	// If specified, virtual network interfaces configured with a virtio bus will also enable the vhost multiqueue feature for network devices. The number of queues created depends on additional factors of the VirtualMachineInstance, like the number of guest CPUs.
 	// +optional
 	NetworkInterfaceMultiQueue *bool `json:"networkInterfaceMultiqueue,omitempty"`
-	//Whether to attach a GPU device to the vmi.
+	// Whether to attach a GPU device to the vmi.
 	// +optional
 	// +listType=atomic
 	GPUs []GPU `json:"gpus,omitempty"`
@@ -479,7 +479,7 @@ type Devices struct {
 	// +optional
 	// +listType=atomic
 	Filesystems []Filesystem `json:"filesystems,omitempty"`
-	//Whether to attach a host device to the vmi.
+	// Whether to attach a host device to the vmi.
 	// +optional
 	// +listType=atomic
 	HostDevices []HostDevice `json:"hostDevices,omitempty"`
@@ -1272,6 +1272,7 @@ type InterfaceBindingMethod struct {
 	Masquerade *InterfaceMasquerade `json:"masquerade,omitempty"`
 	SRIOV      *InterfaceSRIOV      `json:"sriov,omitempty"`
 	Macvtap    *InterfaceMacvtap    `json:"macvtap,omitempty"`
+	Vhostuser  *InterfaceVhostuser  `json:"vhostuser,omitempty"`
 }
 
 //
@@ -1293,6 +1294,10 @@ type InterfaceSRIOV struct{}
 //
 // +k8s:openapi-gen=true
 type InterfaceMacvtap struct{}
+
+//
+// +k8s:openapi-gen=true
+type InterfaceVhostuser struct{}
 
 // Port repesents a port to expose from the virtual machine.
 // Default protocol TCP.

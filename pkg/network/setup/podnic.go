@@ -28,6 +28,7 @@ import (
 	v1 "kubevirt.io/client-go/api/v1"
 	"kubevirt.io/client-go/log"
 	"kubevirt.io/client-go/precond"
+
 	"kubevirt.io/kubevirt/pkg/network/cache"
 	dhcpconfigurator "kubevirt.io/kubevirt/pkg/network/dhcp"
 	netdriver "kubevirt.io/kubevirt/pkg/network/driver"
@@ -172,6 +173,11 @@ func (l *podNIC) PlugPhase1() error {
 		return nil
 	}
 
+	// There is nothing to plug for vhost user devices
+	if l.vmiSpecIface.Vhostuser != nil {
+		return nil
+	}
+
 	state, err := l.state()
 	if err != nil {
 		return err
@@ -237,6 +243,11 @@ func (l *podNIC) PlugPhase2(domain *api.Domain) error {
 
 	// There is nothing to plug for SR-IOV devices
 	if l.vmiSpecIface.SRIOV != nil {
+		return nil
+	}
+
+	// There is nothing to plug for vhost user devices
+	if l.vmiSpecIface.Vhostuser != nil {
 		return nil
 	}
 

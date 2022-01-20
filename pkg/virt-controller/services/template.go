@@ -45,6 +45,7 @@ import (
 	"kubevirt.io/client-go/kubecli"
 	"kubevirt.io/client-go/log"
 	"kubevirt.io/client-go/precond"
+
 	"kubevirt.io/kubevirt/pkg/config"
 	containerdisk "kubevirt.io/kubevirt/pkg/container-disk"
 	"kubevirt.io/kubevirt/pkg/hooks"
@@ -396,6 +397,22 @@ func generateQemuTimeoutWithJitter(qemuTimeoutBaseSeconds int) string {
 	return fmt.Sprintf("%ds", timeout)
 }
 
+func (t *templateService) addVhostuserVolumes(volumeMounts *[]k8sv1.VolumeMount, volumes *[]k8sv1.Volume) {
+	volumeName := "vhostuser-sockets"
+	*volumeMounts = append(*volumeMounts, k8sv1.VolumeMount{
+		Name:      volumeName,
+		MountPath: filepath.Join(util.VirtShareDir, volumeName),
+	})
+	*volumes = append(*volumes, k8sv1.Volume{
+		Name: volumeName,
+		VolumeSource: k8sv1.VolumeSource{
+			EmptyDir: &k8sv1.EmptyDirVolumeSource{
+				Medium: k8sv1.StorageMediumDefault,
+			},
+		},
+	})
+}
+
 func (t *templateService) renderLaunchManifest(vmi *v1.VirtualMachineInstance, tempPod bool) (*k8sv1.Pod, error) {
 	precond.MustNotBeNil(vmi)
 	domain := precond.MustNotBeEmpty(vmi.GetObjectMeta().GetName())
@@ -495,6 +512,16 @@ func (t *templateService) renderLaunchManifest(vmi *v1.VirtualMachineInstance, t
 			EmptyDir: &k8sv1.EmptyDirVolumeSource{},
 		},
 	})
+
+	if util.IsVhostuserVmi(vmi) {
+		if vmi.Spec.Domain.Memory == nil || vmi.Spec.Domain.Memory.Hugepages == nil {
+			logger := log.DefaultLogger()
+			err := fmt.Errorf("Hugepages is required for vhostuser interface")
+			logger.Errorf("Hugepages not found: %v", err)
+			return nil, err
+		}
+		t.addVhostuserVolumes(&volumeMounts, &volumes)
+	}
 
 	serviceAccountName := ""
 

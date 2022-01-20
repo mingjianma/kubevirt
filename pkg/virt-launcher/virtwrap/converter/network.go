@@ -24,10 +24,13 @@ import (
 	"fmt"
 	"io/ioutil"
 	"net"
+	"path/filepath"
 	"strings"
 
 	v1 "kubevirt.io/client-go/api/v1"
 	"kubevirt.io/client-go/log"
+
+	"kubevirt.io/kubevirt/pkg/util"
 	"kubevirt.io/kubevirt/pkg/virt-launcher/virtwrap/converter/vcpu"
 
 	"kubevirt.io/kubevirt/pkg/util/net/dns"
@@ -119,11 +122,35 @@ func createDomainInterfaces(vmi *v1.VirtualMachineInstance, domain *api.Domain, 
 			} else {
 				domainIface.Rom = &api.Rom{Enabled: "no"}
 			}
+		} else if iface.Vhostuser != nil {
+			domainIface.Type = "vhostuser"
+			vhostPath, vhostMode := getVhostuserInfo(iface.Name)
+			vhostDevice := iface.Name
+			domainIface.Source = api.InterfaceSource{
+				Type: "unix",
+				Path: vhostPath,
+				Mode: vhostMode,
+			}
+			domainIface.Target = &api.InterfaceTarget{
+				Device: vhostDevice,
+			}
+			var vhostuserQueueSize uint32 = 1024
+			domainIface.Driver = &api.InterfaceDriver{
+				RxQueueSize: &vhostuserQueueSize,
+				TxQueueSize: &vhostuserQueueSize,
+			}
+			if len(iface.MacAddress) != 0 {
+				domainIface.MAC = &api.MAC{MAC: iface.MacAddress}
+			}
 		}
 		domainInterfaces = append(domainInterfaces, domainIface)
 	}
 
 	return domainInterfaces, nil
+}
+
+func getVhostuserInfo(ifaceName string) (string, string) {
+	return filepath.Join(util.VirtShareDir, "vhostuser-sockets", ifaceName), "server"
 }
 
 func getInterfaceType(iface *v1.Interface) string {

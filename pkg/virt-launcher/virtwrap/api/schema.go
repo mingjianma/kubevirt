@@ -687,8 +687,10 @@ type Interface struct {
 }
 
 type InterfaceDriver struct {
-	Name   string `xml:"name,attr"`
-	Queues *uint  `xml:"queues,attr,omitempty"`
+	Name        string  `xml:"name,attr,omitempty"`
+	Queues      *uint   `xml:"queues,attr,omitempty"`
+	RxQueueSize *uint32 `xml:"rx_queue_size,attr,omitempty"`
+	TxQueueSize *uint32 `xml:"tx_queue_size,attr,omitempty"`
 }
 
 type LinkState struct {
@@ -720,6 +722,8 @@ type InterfaceSource struct {
 	Bridge  string   `xml:"bridge,attr,omitempty"`
 	Mode    string   `xml:"mode,attr,omitempty"`
 	Address *Address `xml:"address,omitempty"`
+	Type    string   `xml:"type,attr,omitempty"`
+	Path    string   `xml:"path,attr,omitempty"`
 }
 
 type Model struct {
@@ -795,7 +799,7 @@ func (alias *Alias) UnmarshalJSON(data []byte) error {
 }
 
 // END Inteface -----------------------------
-//BEGIN OS --------------------
+// BEGIN OS --------------------
 
 type OS struct {
 	Type       OSType    `xml:"type"`
@@ -859,9 +863,9 @@ type Entry struct {
 	Value string `xml:",chardata"`
 }
 
-//END OS --------------------
+// END OS --------------------
 
-//BEGIN Clock --------------------
+// BEGIN Clock --------------------
 
 type Clock struct {
 	Offset     string  `xml:"offset,attr,omitempty"`
@@ -878,9 +882,9 @@ type Timer struct {
 	Frequency  string `xml:"frequency,attr,omitempty"`
 }
 
-//END Clock --------------------
+// END Clock --------------------
 
-//BEGIN Channel --------------------
+// BEGIN Channel --------------------
 
 type Channel struct {
 	Type   string         `xml:"type,attr"`
@@ -901,9 +905,9 @@ type ChannelSource struct {
 	Path string `xml:"path,attr"`
 }
 
-//END Channel --------------------
+// END Channel --------------------
 
-//BEGIN Video -------------------
+// BEGIN Video -------------------
 
 type Video struct {
 	Model VideoModel `xml:"model"`
@@ -946,7 +950,7 @@ type Address struct {
 	UUID       string `xml:"uuid,attr,omitempty"`
 }
 
-//END Video -------------------
+// END Video -------------------
 
 type Stats struct {
 	Period uint `xml:"period,attr"`
