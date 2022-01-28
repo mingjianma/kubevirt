@@ -767,7 +767,18 @@ func (l *LibvirtDomainManager) generateConverterContext(vmi *v1.VirtualMachineIn
 		if err != nil {
 			return nil, err
 		}
-		c.GPUHostDevices = gpuHostDevices
+		var tmp []api.HostDevice
+		for _, item := range gpuHostDevices {
+			tmp = append(tmp, item)
+			if strings.Contains( item.Alias.GetName(), "ua-gpu") {
+				video := item.DeepCopy()
+				video.Alias = api.NewUserDefinedAlias(strings.Replace(item.Alias.GetName(), "gpu","video", -1))
+				video.Source.Address.Function = "0x1"
+				video.Address.Function = "0x1"
+				tmp = append(tmp, *video)
+			}
+		}
+		c.GPUHostDevices = tmp
 	}
 
 	return c, nil
