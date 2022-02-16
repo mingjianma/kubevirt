@@ -12,6 +12,18 @@ import (
 	"kubevirt.io/kubevirt/pkg/virt-launcher/virtwrap/api"
 )
 
+const (
+	Strict     = "strict"
+	Interleave = "interleave"
+	Preferred  = "preferred"
+)
+
+var memoryPolicyMap = map[string]struct{}{
+	Strict:     {},
+	Interleave: {},
+	Preferred:  {},
+}
+
 func cpuToCell(topology *cmdv1.Topology) map[uint32]*cmdv1.Cell {
 	cpumap := map[uint32]*cmdv1.Cell{}
 	for i, cell := range topology.NumaCells {
@@ -57,11 +69,11 @@ func numaMapping(vmi *v1.VirtualMachineInstance, domain *api.DomainSpec, topolog
 			involvedCellIDs = append(involvedCellIDs, strconv.Itoa(int(cell.Id)))
 		}
 	}
-
+	mode := memoryMode(vmi)
 	domain.CPU.NUMA = &api.NUMA{}
 	domain.NUMATune = &api.NUMATune{
 		Memory: api.NumaTuneMemory{
-			Mode:    "strict",
+			Mode:    mode,
 			NodeSet: strings.Join(involvedCellIDs, ","),
 		},
 	}
@@ -108,7 +120,7 @@ func numaMapping(vmi *v1.VirtualMachineInstance, domain *api.DomainSpec, topolog
 			})
 			domain.NUMATune.MemNodes = append(domain.NUMATune.MemNodes, api.MemNode{
 				CellID:  uint32(virtualCellID),
-				Mode:    "strict",
+				Mode:    mode,
 				NodeSet: strconv.Itoa(int(cell.Id)),
 			})
 			domain.MemoryBacking.HugePages.HugePage = append(domain.MemoryBacking.HugePages.HugePage, api.HugePage{
@@ -142,4 +154,14 @@ func hugePagesInfo(vmi *v1.VirtualMachineInstance, domain *api.DomainSpec) (size
 		}
 	}
 	return 0, "b", false, nil
+}
+
+func memoryMode(vmi *v1.VirtualMachineInstance) string {
+	if vmi.Spec.Domain.CPU.NUMA != nil && vmi.Spec.Domain.CPU.NUMA.GuestMappingPassthrough.Mode != "" {
+		mode := vmi.Spec.Domain.CPU.NUMA.GuestMappingPassthrough.Mode
+		if _, ok := memoryPolicyMap[strings.ToLower(mode)]; ok {
+			return mode
+		}
+	}
+	return Strict
 }
