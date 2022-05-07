@@ -568,6 +568,9 @@ func (c *MigrationController) createTargetPod(migration *virtv1.VirtualMachineIn
 		}
 	}
 
+	if len(migration.Spec.TargetNode) > 0 {
+		templatePod.Spec.NodeSelector["kubernetes.io/hostname"] = migration.Spec.TargetNode
+	}
 	// This is used by the functional test to simulate failures
 	computeImageOverride, ok := migration.Annotations[virtv1.FuncTestMigrationTargetImageOverrideAnnotation]
 	if ok && computeImageOverride != "" {

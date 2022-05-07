@@ -14274,7 +14274,13 @@
    },
    "v1.NUMAGuestMappingPassthrough": {
     "description": "NUMAGuestMappingPassthrough instructs kubevirt to model numa topology which is compatible with the CPU pinning on the guest. This will result in a subset of the node numa topology being passed through, ensuring that virtual numa nodes and their memory never cross boundaries coming from the node numa mapping.",
-    "type": "object"
+    "type": "object",
+    "properties": {
+     "mode": {
+      "description": "\n Mode define how memory is allocated from the nodes in a system\nStrict mode means that the allocation will fail if the memory cannot be allocated on the target node. Specifying a NUMA nodeset list without defining a memory mode attribute defaults to strict mode. Interleave mode Memory pages are allocated across nodes specified by a nodeset, but are allocated in a round-robin fashion. Preferred mode Memory is allocated from a single preferred memory node. If sufficient memory is not available, memory can be allocated from other nodes. Defaults to Strict",
+      "type": "string"
+     }
+    }
    },
    "v1.Network": {
     "description": "Network represents a network type and a resource that should be connected to the vm.",
@@ -15803,6 +15809,14 @@
      "template"
     ],
     "properties": {
+     "targetNode": {
+      "description": "The target node that the VMI is moving to",
+      "type": "string"
+     },
+     "vmiName": {
+      "description": "The name of the VMI to perform the migration on. VMI must exist in the migration objects namespace",
+      "type": "string"
+     },
      "paused": {
       "description": "Indicates that the replica set is paused.",
       "type": "boolean"
@@ -16660,7 +16674,28 @@
       "type": "boolean"
      },
      "name": {
-      "description": "Name specifies the name of this custom profile.",
+      "description": "Name is the name of the volume",
+      "type": "string"
+     },
+     "persistentVolumeClaimInfo": {
+      "description": "PersistentVolumeClaimInfo is information about the PVC that handler requires during start flow",
+      "$ref": "#/definitions/v1.PersistentVolumeClaimInfo"
+     },
+     "phase": {
+      "description": "Phase is the phase",
+      "type": "string"
+     },
+     "reason": {
+      "description": "Reason is a brief description of why we are in the current hotplug volume phase",
+      "type": "string"
+     },
+     "size": {
+      "description": "Represents the size of the volume",
+      "type": "integer",
+      "format": "int64"
+     },
+     "target": {
+      "description": "Target is the target name used when adding the volume to the VM, eg: vda",
       "type": "string"
      }
     }
