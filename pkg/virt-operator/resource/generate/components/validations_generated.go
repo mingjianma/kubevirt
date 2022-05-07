@@ -4227,6 +4227,10 @@ var CRDsValidation map[string]string = map[string]string{
                                   readonly:
                                     description: ReadOnly. Defaults to false.
                                     type: boolean
+                                  sgio:
+                                    description: 'SgIo open sgio and set the value.
+                                      support values: unfiltered filtered'
+                                    type: string
                                 type: object
                               name:
                                 description: Name is the device name
@@ -4235,6 +4239,10 @@ var CRDsValidation map[string]string = map[string]string{
                                 description: Serial provides the ability to specify
                                   a serial number for the disk device.
                                 type: string
+                              shareable:
+                                description: shareable indicates this disk is shareable
+                                  with multiple vm for rwx Defaults to false.
+                                type: boolean
                               tag:
                                 description: If specified, disk address and its tag
                                   will be provided to the guest via config drive metadata
@@ -5875,6 +5883,10 @@ var CRDsValidation map[string]string = map[string]string{
                           readonly:
                             description: ReadOnly. Defaults to false.
                             type: boolean
+                          sgio:
+                            description: 'SgIo open sgio and set the value. support
+                              values: unfiltered filtered'
+                            type: string
                         type: object
                       name:
                         description: Name is the device name
@@ -5883,6 +5895,10 @@ var CRDsValidation map[string]string = map[string]string{
                         description: Serial provides the ability to specify a serial
                           number for the disk device.
                         type: string
+                      shareable:
+                        description: shareable indicates this disk is shareable with
+                          multiple vm for rwx Defaults to false.
+                        type: boolean
                       tag:
                         description: If specified, disk address and its tag will be
                           provided to the guest via config drive metadata
@@ -7345,6 +7361,10 @@ var CRDsValidation map[string]string = map[string]string{
                           readonly:
                             description: ReadOnly. Defaults to false.
                             type: boolean
+                          sgio:
+                            description: 'SgIo open sgio and set the value. support
+                              values: unfiltered filtered'
+                            type: string
                         type: object
                       name:
                         description: Name is the device name
@@ -7353,6 +7373,10 @@ var CRDsValidation map[string]string = map[string]string{
                         description: Serial provides the ability to specify a serial
                           number for the disk device.
                         type: string
+                      shareable:
+                        description: shareable indicates this disk is shareable with
+                          multiple vm for rwx Defaults to false.
+                        type: boolean
                       tag:
                         description: If specified, disk address and its tag will be
                           provided to the guest via config drive metadata
@@ -9494,6 +9518,10 @@ var CRDsValidation map[string]string = map[string]string{
                           readonly:
                             description: ReadOnly. Defaults to false.
                             type: boolean
+                          sgio:
+                            description: 'SgIo open sgio and set the value. support
+                              values: unfiltered filtered'
+                            type: string
                         type: object
                       name:
                         description: Name is the device name
@@ -9502,6 +9530,10 @@ var CRDsValidation map[string]string = map[string]string{
                         description: Serial provides the ability to specify a serial
                           number for the disk device.
                         type: string
+                      shareable:
+                        description: shareable indicates this disk is shareable with
+                          multiple vm for rwx Defaults to false.
+                        type: boolean
                       tag:
                         description: If specified, disk address and its tag will be
                           provided to the guest via config drive metadata
@@ -11360,6 +11392,10 @@ var CRDsValidation map[string]string = map[string]string{
                                   readonly:
                                     description: ReadOnly. Defaults to false.
                                     type: boolean
+                                  sgio:
+                                    description: 'SgIo open sgio and set the value.
+                                      support values: unfiltered filtered'
+                                    type: string
                                 type: object
                               name:
                                 description: Name is the device name
@@ -11368,6 +11404,10 @@ var CRDsValidation map[string]string = map[string]string{
                                 description: Serial provides the ability to specify
                                   a serial number for the disk device.
                                 type: string
+                              shareable:
+                                description: shareable indicates this disk is shareable
+                                  with multiple vm for rwx Defaults to false.
+                                type: boolean
                               tag:
                                 description: If specified, disk address and its tag
                                   will be provided to the guest via config drive metadata
@@ -14675,6 +14715,10 @@ var CRDsValidation map[string]string = map[string]string{
                                           readonly:
                                             description: ReadOnly. Defaults to false.
                                             type: boolean
+                                          sgio:
+                                            description: 'SgIo open sgio and set the
+                                              value. support values: unfiltered filtered'
+                                            type: string
                                         type: object
                                       name:
                                         description: Name is the device name
@@ -14683,6 +14727,11 @@ var CRDsValidation map[string]string = map[string]string{
                                         description: Serial provides the ability to
                                           specify a serial number for the disk device.
                                         type: string
+                                      shareable:
+                                        description: shareable indicates this disk
+                                          is shareable with multiple vm for rwx Defaults
+                                          to false.
+                                        type: boolean
                                       tag:
                                         description: If specified, disk address and
                                           its tag will be provided to the guest via
@@ -18344,6 +18393,11 @@ var CRDsValidation map[string]string = map[string]string{
                                                 description: ReadOnly. Defaults to
                                                   false.
                                                 type: boolean
+                                              sgio:
+                                                description: 'SgIo open sgio and set
+                                                  the value. support values: unfiltered
+                                                  filtered'
+                                                type: string
                                             type: object
                                           name:
                                             description: Name is the device name
@@ -18353,6 +18407,11 @@ var CRDsValidation map[string]string = map[string]string{
                                               to specify a serial number for the disk
                                               device.
                                             type: string
+                                          shareable:
+                                            description: shareable indicates this
+                                              disk is shareable with multiple vm for
+                                              rwx Defaults to false.
+                                            type: boolean
                                           tag:
                                             description: If specified, disk address
                                               and its tag will be provided to the
@@ -20144,6 +20203,10 @@ var CRDsValidation map[string]string = map[string]string{
                                       readonly:
                                         description: ReadOnly. Defaults to false.
                                         type: boolean
+                                      sgio:
+                                        description: 'SgIo open sgio and set the value.
+                                          support values: unfiltered filtered'
+                                        type: string
                                     type: object
                                   name:
                                     description: Name is the device name
@@ -20152,6 +20215,11 @@ var CRDsValidation map[string]string = map[string]string{
                                     description: Serial provides the ability to specify
                                       a serial number for the disk device.
                                     type: string
+                                  shareable:
+                                    description: shareable indicates this disk is
+                                      shareable with multiple vm for rwx Defaults
+                                      to false.
+                                    type: boolean
                                   tag:
                                     description: If specified, disk address and its
                                       tag will be provided to the guest via config

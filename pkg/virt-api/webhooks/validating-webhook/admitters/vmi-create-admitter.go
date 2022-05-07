@@ -2186,7 +2186,7 @@ func validateDisks(field *k8sfield.Path, disks []v1.Disk) []metav1.StatusCause {
 
 		// Verify only a single device type is set.
 		deviceTargetSetCount := 0
-		var diskType, bus string
+		var diskType, bus, sgio string
 		if disk.Disk != nil {
 			deviceTargetSetCount++
 			diskType = "disk"
@@ -2196,6 +2196,7 @@ func validateDisks(field *k8sfield.Path, disks []v1.Disk) []metav1.StatusCause {
 			deviceTargetSetCount++
 			diskType = "lun"
 			bus = disk.LUN.Bus
+			sgio = disk.LUN.Sgio
 		}
 		if disk.Floppy != nil {
 			deviceTargetSetCount++
@@ -2245,6 +2246,23 @@ func validateDisks(field *k8sfield.Path, disks []v1.Disk) []metav1.StatusCause {
 			})
 		}
 
+		// Verify sgio is supported, if provided
+		if len(sgio) > 0 {
+			sgios := []string{"unfiltered", "filtered"}
+			validSgio := false
+			for _, s := range sgios {
+				if s == sgio {
+					validSgio = true
+				}
+			}
+			if !validSgio {
+				causes = append(causes, metav1.StatusCause{
+					Type:    metav1.CauseTypeFieldValueInvalid,
+					Message: fmt.Sprintf("%s is set with an unrecognized sgio %s, must be one of: %v", field.Index(idx).String(), sgio, sgios),
+					Field:   field.Index(idx).Child(diskType, "sgio").String(),
+				})
+			}
+		}
 		// Verify bus is supported, if provided
 		if len(bus) > 0 {
 			if bus == "ide" {

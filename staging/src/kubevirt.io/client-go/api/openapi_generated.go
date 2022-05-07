@@ -15407,6 +15407,13 @@ func schema_kubevirtio_api_core_v1_Disk(ref common.ReferenceCallback) common.Ope
 							Ref:         ref("kubevirt.io/api/core/v1.IOTune"),
 						},
 					},
+					"shareable": {
+						SchemaProps: spec.SchemaProps{
+							Description: "shareable indicates this disk is shareable with multiple vm for rwx Defaults to false.",
+							Type:        []string{"boolean"},
+							Format:      "",
+						},
+					},
 				},
 				Required: []string{"name"},
 			},
@@ -17662,6 +17669,13 @@ func schema_kubevirtio_api_core_v1_LunTarget(ref common.ReferenceCallback) commo
 						SchemaProps: spec.SchemaProps{
 							Description: "ReadOnly. Defaults to false.",
 							Type:        []string{"boolean"},
+							Format:      "",
+						},
+					},
+					"sgio": {
+						SchemaProps: spec.SchemaProps{
+							Description: "SgIo open sgio and set the value. support values: unfiltered filtered",
+							Type:        []string{"string"},
 							Format:      "",
 						},
 					},

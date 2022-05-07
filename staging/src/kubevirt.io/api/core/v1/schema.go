@@ -576,6 +576,10 @@ type Disk struct {
 	// If specified, will set the disk qos
 	// +optional
 	IOTune *IOTune `json:"ioTune,omitempty"`
+	// shareable indicates this disk is shareable with multiple vm for rwx
+	// Defaults to false.
+	// +optional
+	Shareable *bool `json:"shareable,omitempty"`
 }
 
 // CustomBlockSize represents the desired logical and physical block size for a VM disk.
@@ -656,6 +660,9 @@ type LunTarget struct {
 	// ReadOnly.
 	// Defaults to false.
 	ReadOnly bool `json:"readonly,omitempty"`
+	// SgIo open sgio and set the value.
+	// support values: unfiltered filtered
+	Sgio string `json:"sgio,omitempty"`
 }
 
 type FloppyTarget struct {

@@ -195,6 +195,9 @@ func Convert_v1_Disk_To_api_Disk(c *ConverterContext, diskDevice *v1.Disk, disk 
 		disk.Target.Bus = diskDevice.LUN.Bus
 		disk.Target.Device, _ = makeDeviceName(diskDevice.Name, diskDevice.LUN.Bus, prefixMap)
 		disk.ReadOnly = toApiReadOnly(diskDevice.LUN.ReadOnly)
+		if diskDevice.LUN.Sgio != "" {
+			disk.Sgio = diskDevice.LUN.Sgio
+		}
 	} else if diskDevice.Floppy != nil {
 		disk.Device = "floppy"
 		disk.Target.Bus = "fdc"
@@ -228,6 +231,9 @@ func Convert_v1_Disk_To_api_Disk(c *ConverterContext, diskDevice *v1.Disk, disk 
 			disk.Capacity = getDiskCapacity(volumeStatus.PersistentVolumeClaimInfo)
 		}
 		disk.ExpandDisksEnabled = c.ExpandDisksEnabled
+	}
+	if diskDevice.Shareable != nil {
+		disk.Shareable = toApiShareable(*diskDevice.Shareable)
 	}
 	if numQueues != nil && disk.Target.Bus == "virtio" {
 		disk.Driver.Queues = numQueues
@@ -584,6 +590,13 @@ func FormatDeviceName(prefix string, index int) string {
 func toApiReadOnly(src bool) *api.ReadOnly {
 	if src {
 		return &api.ReadOnly{}
+	}
+	return nil
+}
+
+func toApiShareable(src bool) *api.Shareable {
+	if src {
+		return &api.Shareable{}
 	}
 	return nil
 }
