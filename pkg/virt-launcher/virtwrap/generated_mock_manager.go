@@ -230,6 +230,26 @@ func (_mr *_MockDomainManagerRecorder) FinalizeVirtualMachineMigration(arg0 inte
 	return _mr.mock.ctrl.RecordCall(_mr.mock, "FinalizeVirtualMachineMigration", arg0)
 }
 
+func (_m *MockDomainManager) SetVMIvCPUs(_param0 *v1.VirtualMachineInstance, _param1 uint) error {
+	ret := _m.ctrl.Call(_m, "SetVMIvCPUs", _param0, _param1)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+func (_mr *_MockDomainManagerRecorder) SetVMIvCPUs(arg0, arg1 interface{}) *gomock.Call {
+	return _mr.mock.ctrl.RecordCall(_mr.mock, "SetVMIvCPUs", arg0, arg1)
+}
+
+func (_m *MockDomainManager) SetVMIMemory(_param0 *v1.VirtualMachineInstance, _param1 uint64) error {
+	ret := _m.ctrl.Call(_m, "SetVMIMemory", _param0, _param1)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+func (_mr *_MockDomainManagerRecorder) SetVMIMemory(arg0, arg1 interface{}) *gomock.Call {
+	return _mr.mock.ctrl.RecordCall(_mr.mock, "SetVMIMemory", arg0, arg1)
+}
+
 func (_m *MockDomainManager) InterfacesStatus(domainInterfaces []api.Interface) []api.InterfaceStatus {
 	ret := _m.ctrl.Call(_m, "InterfacesStatus", domainInterfaces)
 	ret0, _ := ret[0].([]api.InterfaceStatus)

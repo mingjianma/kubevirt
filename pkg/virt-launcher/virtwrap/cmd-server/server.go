@@ -350,6 +350,48 @@ func (l *Launcher) FinalizeVirtualMachineMigration(_ context.Context, request *c
 	return response, nil
 }
 
+func (l *Launcher) SetVirtualMachineVCpus(_ context.Context, request *cmdv1.VMIRequest) (*cmdv1.Response, error) {
+	vmi, response := getVMIFromRequest(request.Vmi)
+	if !response.Success {
+		return response, nil
+	}
+
+	if request.Options == nil || request.Options.VCpus == 0 {
+		return nil, fmt.Errorf("set vm vcpus options object not present in command server request")
+	}
+
+	if err := l.domainManager.SetVMIvCPUs(vmi, uint(request.Options.VCpus)); err != nil {
+		log.Log.Object(vmi).Reason(err).Errorf("failed to set vmi vcpus")
+		response.Success = false
+		response.Message = getErrorMessage(err)
+		return response, nil
+	}
+
+	log.Log.Object(vmi).Info("vmi set vcpus successfully")
+	return response, nil
+}
+
+func (l *Launcher) SetVirtualMachineMemory(_ context.Context, request *cmdv1.VMIRequest) (*cmdv1.Response, error) {
+	vmi, response := getVMIFromRequest(request.Vmi)
+	if !response.Success {
+		return response, nil
+	}
+
+	if request.Options == nil || request.Options.Memory == 0 {
+		return nil, fmt.Errorf("set vm vcpus options object not present in command server request")
+	}
+
+	if err := l.domainManager.SetVMIMemory(vmi, request.Options.Memory); err != nil {
+		log.Log.Object(vmi).Reason(err).Errorf("failed to set vmi vcpus")
+		response.Success = false
+		response.Message = getErrorMessage(err)
+		return response, nil
+	}
+
+	log.Log.Object(vmi).Info("vmi set vcpus successfully")
+	return response, nil
+}
+
 func (l *Launcher) GetDomain(_ context.Context, _ *cmdv1.EmptyRequest) (*cmdv1.DomainResponse, error) {
 
 	response := &cmdv1.DomainResponse{
