@@ -1315,6 +1315,9 @@ func (t *templateService) renderLaunchManifest(vmi *v1.VirtualMachineInstance, i
 			SecurityContext: &k8sv1.SecurityContext{
 				RunAsUser:  &userId,
 				Privileged: &privileged,
+				Capabilities: &k8sv1.Capabilities{
+					Add: capabilities,
+				},
 			},
 			VolumeMounts: []k8sv1.VolumeMount{
 				{
