@@ -378,17 +378,17 @@ func (l *Launcher) SetVirtualMachineMemory(_ context.Context, request *cmdv1.VMI
 	}
 
 	if request.Options == nil || request.Options.Memory == 0 {
-		return nil, fmt.Errorf("set vm vcpus options object not present in command server request")
+		return nil, fmt.Errorf("set vm memory options object not present in command server request")
 	}
 
 	if err := l.domainManager.SetVMIMemory(vmi, request.Options.Memory); err != nil {
-		log.Log.Object(vmi).Reason(err).Errorf("failed to set vmi vcpus")
+		log.Log.Object(vmi).Reason(err).Errorf("failed to set vmi memory")
 		response.Success = false
 		response.Message = getErrorMessage(err)
 		return response, nil
 	}
 
-	log.Log.Object(vmi).Info("vmi set vcpus successfully")
+	log.Log.Object(vmi).Info("vmi set memory successfully")
 	return response, nil
 }
 
