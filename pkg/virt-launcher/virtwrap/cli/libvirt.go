@@ -62,6 +62,7 @@ type Connection interface {
 	// 1. avoid to expose to the client code the libvirt-specific return type, see docs in stats/ subpackage
 	// 2. transparently handling the addition of the memory stats, currently (libvirt 4.9) not handled by the bulk stats API
 	GetDomainStats(statsTypes libvirt.DomainStatsTypes, flags libvirt.ConnectGetAllDomainStatsFlags) ([]*stats.DomainStats, error)
+	SetSecret(xml string, value string) (secret *libvirt.Secret, err error)
 }
 
 type Stream interface {
@@ -262,6 +263,21 @@ func (l *LibvirtConnection) GetAllDomainStats(statsTypes libvirt.DomainStatsType
 		return nil, err
 	}
 	return domStats, nil
+}
+
+func (l *LibvirtConnection) SetSecret(xml string, value string) (secret *libvirt.Secret, err error) {
+	if err := l.reconnectIfNecessary(); err != nil {
+		return secret, err
+	}
+
+	secret, err = l.Connect.SecretDefineXML(xml, 0)
+	if err != nil {
+		return
+	}
+
+	err = secret.SetValue([]byte(value), 0)
+
+	return
 }
 
 func (l *LibvirtConnection) GetDomainStats(statsTypes libvirt.DomainStatsTypes, flags libvirt.ConnectGetAllDomainStatsFlags) ([]*stats.DomainStats, error) {

@@ -27,11 +27,15 @@ package virtwrap
 
 import (
 	"context"
+	"encoding/json"
 	"encoding/xml"
 	"fmt"
+	"io/ioutil"
 	"os"
 	"os/exec"
+	"path"
 	"path/filepath"
+	"regexp"
 	"runtime"
 	"strconv"
 	"strings"
@@ -163,6 +167,11 @@ type LibvirtDomainManager struct {
 
 type pausedVMIs struct {
 	paused map[types.UID]bool
+}
+
+type ipRoute struct {
+	Dst     string `json:"dst"`
+	Gateway string `json:"gateway"`
 }
 
 func (s pausedVMIs) add(uid types.UID) {
@@ -692,7 +701,7 @@ func shouldExpandOffline(disk api.Disk) bool {
 	if !disk.ExpandDisksEnabled {
 		return false
 	}
-	if disk.Source.Dev != "" {
+	if disk.Source.Dev != "" || disk.Source.Host != nil {
 		// Block devices don't need to be expanded
 		return false
 	}
@@ -858,6 +867,14 @@ func (l *LibvirtDomainManager) SyncVMI(vmi *v1.VirtualMachineInstance, allowEmul
 				logger.Reason(err).Error("pre start setup for VirtualMachineInstance failed.")
 				return nil, err
 			}
+			err := l.setAuthSecret(vmi, &domain.Spec)
+			if err != nil {
+				log.Log.Infof("setAuthSecret: %v", err)
+			}
+			err = l.setIPRoute(vmi)
+			if err != nil {
+				return nil, err
+			}
 			dom, err = l.setDomainSpecWithHooks(vmi, &domain.Spec)
 			if err != nil {
 				return nil, err
@@ -920,6 +937,11 @@ func (l *LibvirtDomainManager) SyncVMI(vmi *v1.VirtualMachineInstance, allowEmul
 
 	//Look up all the disks to detach
 	for _, detachDisk := range getDetachedDisks(oldSpec.Devices.Disks, domain.Spec.Devices.Disks) {
+
+		if detachDisk.Source.Host != nil {
+			continue
+		}
+
 		logger.V(1).Infof("Detaching disk %s, target %s", detachDisk.Alias.GetName(), detachDisk.Target.Device)
 		detachBytes, err := xml.Marshal(detachDisk)
 		if err != nil {
@@ -934,6 +956,11 @@ func (l *LibvirtDomainManager) SyncVMI(vmi *v1.VirtualMachineInstance, allowEmul
 	}
 	//Look up all the disks to attach
 	for _, attachDisk := range getAttachedDisks(oldSpec.Devices.Disks, domain.Spec.Devices.Disks) {
+
+		if attachDisk.Source.Host != nil {
+			continue
+		}
+
 		allowAttach, err := checkIfDiskReadyToUse(getSourceFile(attachDisk))
 		if err != nil {
 			return nil, err
@@ -1533,6 +1560,104 @@ func (l *LibvirtDomainManager) ListAllDomains() ([]*api.Domain, error) {
 
 func (l *LibvirtDomainManager) setDomainSpecWithHooks(vmi *v1.VirtualMachineInstance, origSpec *api.DomainSpec) (cli.VirDomain, error) {
 	return util.SetDomainSpecStrWithHooks(l.virConn, vmi, origSpec)
+}
+
+func (l *LibvirtDomainManager) setAuthSecret(vmi *v1.VirtualMachineInstance, origSpec *api.DomainSpec) (err error) {
+	authSecret := make(map[string]string)
+	//diskMarshal, _ := json.Marshal(origSpec.Devices.Disks)
+	//volumeMarshal, _ := json.Marshal(vmi.Spec.Volumes)
+	//log.Log.Infof("origSpec.Devices.Disks: %v", diskMarshal)
+	//log.Log.Infof("vmi.Spec.Volumes: %v", volumeMarshal)
+	for _, diskItem := range origSpec.Devices.Disks {
+		if diskItem.Auth == nil {
+			continue
+		}
+		for _, secretItem := range vmi.Spec.Volumes {
+			if secretItem.Secret != nil && secretItem.Secret.SecretName == diskItem.Auth.Secret.Usage {
+
+				if uuid, ok := authSecret[secretItem.Secret.SecretName]; ok {
+					authSecret[secretItem.Secret.SecretName] = uuid
+					continue
+				}
+
+				secretPath := config.GetSecretSourcePath(secretItem.Name)
+				secretXml := path.Join(secretPath, "secret.xml")
+				log.Log.Infof("secretXml %s", secretXml)
+				_, err := os.Stat(secretXml)
+				if err != nil {
+					log.Log.Errorf("setAuthSecret secretXml: %v", err)
+					return err
+				}
+				//secretXmlContent, err := ioutil.ReadFile(secretXml)
+				//if err != nil {
+				//	log.Log.Errorf("setAuthSecret ReadFile: %v", err)
+				//	return err
+				//}
+				passFile := path.Join(secretPath, "pass.txt")
+				log.Log.Infof("secretXml %s", passFile)
+				_, err = os.Stat(passFile)
+				if err != nil {
+					log.Log.Errorf("setAuthSecret passFile: %v", err)
+					return err
+				}
+				passContent, err := ioutil.ReadFile(passFile)
+				if err != nil {
+					log.Log.Errorf("setAuthSecret ReadFile: %v", err)
+					return err
+				}
+				output, err := exec.Command("bash", "-c",
+					fmt.Sprintf("virsh secret-define %s", secretXml)).CombinedOutput()
+				if err != nil {
+					log.Log.Errorf("secret-define err: %v", err)
+					return err
+				}
+				log.Log.Infof("secret-define output %s", output)
+				rp, _ := regexp.Compile("Secret (.*) created")
+				secretArr := rp.FindStringSubmatch(string(output))
+				if len(secretArr) > 1 {
+					secretId := secretArr[1]
+					output, _ := exec.Command("bash", "-c",
+						fmt.Sprintf("virsh secret-set-value %s %s", secretId, passContent)).CombinedOutput()
+					log.Log.Infof("secret-set-value output %s", output)
+					log.Log.Infof("secret-set-value UUID %s", secretId)
+					//diskItem.Auth.Secret.UUID = secretId
+				}
+
+				//secret, err := l.virConn.SetSecret(string(secretXmlContent), string(passContent))
+				//if err != nil {
+				//	log.Log.Errorf("setAuthSecret SetSecret: %v", err)
+				//	return err
+				//}
+				//uuid, err := secret.GetUUID()
+				//if err != nil {
+				//	log.Log.Errorf("setAuthSecret GetUUID: %v", err)
+				//	return err
+				//}
+				//diskItem.Auth.Secret.UUID = string(uuid)
+
+				authSecret[secretItem.Secret.SecretName] = diskItem.Auth.Secret.UUID
+			}
+		}
+	}
+	return
+}
+
+func (l *LibvirtDomainManager) setIPRoute(vmi *v1.VirtualMachineInstance) (err error) {
+	if annotation, ok := vmi.Annotations[v1.IPRouteAnnotation]; ok {
+		routes := make([]ipRoute, 0)
+		err = json.Unmarshal([]byte(annotation), &routes)
+		if err != nil {
+			return
+		}
+		for _, route := range routes {
+			output, err := exec.Command("ip", "route", "add", route.Dst, "via", route.Gateway).CombinedOutput()
+			if err != nil {
+				return err
+			}
+			log.Log.Infof("setIPRoute %s", output)
+		}
+	}
+	return
 }
 
 func (l *LibvirtDomainManager) GetDomainStats() ([]*stats.DomainStats, error) {

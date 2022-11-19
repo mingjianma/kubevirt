@@ -19,7 +19,6 @@ go_library(
         "//pkg/certificates/bootstrap:go_default_library",
         "//pkg/certificates/triple:go_default_library",
         "//pkg/certificates/triple/cert:go_default_library",
-        "//pkg/virt-config:go_default_library",
         "//pkg/virt-operator/resource/generate/rbac:go_default_library",
         "//pkg/virt-operator/util:go_default_library",
         "//staging/src/kubevirt.io/api/core:go_default_library",

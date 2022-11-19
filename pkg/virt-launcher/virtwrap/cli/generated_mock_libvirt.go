@@ -188,6 +188,17 @@ func (_mr *_MockConnectionRecorder) GetDomainStats(arg0, arg1 interface{}) *gomo
 	return _mr.mock.ctrl.RecordCall(_mr.mock, "GetDomainStats", arg0, arg1)
 }
 
+func (_m *MockConnection) SetSecret(xml string, value string) (*libvirt.Secret, error) {
+	ret := _m.ctrl.Call(_m, "SetSecret", xml, value)
+	ret0, _ := ret[0].(*libvirt.Secret)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+func (_mr *_MockConnectionRecorder) SetSecret(arg0, arg1 interface{}) *gomock.Call {
+	return _mr.mock.ctrl.RecordCall(_mr.mock, "SetSecret", arg0, arg1)
+}
+
 // Mock of Stream interface
 type MockStream struct {
 	ctrl     *gomock.Controller

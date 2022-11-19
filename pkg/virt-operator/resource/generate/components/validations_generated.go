@@ -4921,6 +4921,19 @@ var CRDsValidation map[string]string = map[string]string{
                             are connected to the vmi.
                           items:
                             properties:
+                              auth:
+                                description: If specified, will set the disk auth
+                                properties:
+                                  secret:
+                                    properties:
+                                      type:
+                                        type: string
+                                      usage:
+                                        type: string
+                                    type: object
+                                  username:
+                                    type: string
+                                type: object
                               blockSize:
                                 description: If specified, the virtual disk will be
                                   presented with the given block sizes.
@@ -5060,6 +5073,21 @@ var CRDsValidation map[string]string = map[string]string{
                                 description: If specified the disk is made sharable
                                   and multiple write from different VMs are permitted
                                 type: boolean
+                              source:
+                                description: If specified, will set the disk source
+                                properties:
+                                  host:
+                                    properties:
+                                      name:
+                                        type: string
+                                      port:
+                                        type: string
+                                    type: object
+                                  name:
+                                    type: string
+                                  protocol:
+                                    type: string
+                                type: object
                               tag:
                                 description: If specified, disk address and its tag
                                   will be provided to the guest via config drive metadata
@@ -6593,6 +6621,19 @@ var CRDsValidation map[string]string = map[string]string{
                     description: Disk represents the hotplug disk that will be plugged
                       into the running VMI
                     properties:
+                      auth:
+                        description: If specified, will set the disk auth
+                        properties:
+                          secret:
+                            properties:
+                              type:
+                                type: string
+                              usage:
+                                type: string
+                            type: object
+                          username:
+                            type: string
+                        type: object
                       blockSize:
                         description: If specified, the virtual disk will be presented
                           with the given block sizes.
@@ -6725,6 +6766,21 @@ var CRDsValidation map[string]string = map[string]string{
                         description: If specified the disk is made sharable and multiple
                           write from different VMs are permitted
                         type: boolean
+                      source:
+                        description: If specified, will set the disk source
+                        properties:
+                          host:
+                            properties:
+                              name:
+                                type: string
+                              port:
+                                type: string
+                            type: object
+                          name:
+                            type: string
+                          protocol:
+                            type: string
+                        type: object
                       tag:
                         description: If specified, disk address and its tag will be
                           provided to the guest via config drive metadata
@@ -8277,6 +8333,19 @@ var CRDsValidation map[string]string = map[string]string{
                     to the vmi.
                   items:
                     properties:
+                      auth:
+                        description: If specified, will set the disk auth
+                        properties:
+                          secret:
+                            properties:
+                              type:
+                                type: string
+                              usage:
+                                type: string
+                            type: object
+                          username:
+                            type: string
+                        type: object
                       blockSize:
                         description: If specified, the virtual disk will be presented
                           with the given block sizes.
@@ -8409,6 +8478,21 @@ var CRDsValidation map[string]string = map[string]string{
                         description: If specified the disk is made sharable and multiple
                           write from different VMs are permitted
                         type: boolean
+                      source:
+                        description: If specified, will set the disk source
+                        properties:
+                          host:
+                            properties:
+                              name:
+                                type: string
+                              port:
+                                type: string
+                            type: object
+                          name:
+                            type: string
+                          protocol:
+                            type: string
+                        type: object
                       tag:
                         description: If specified, disk address and its tag will be
                           provided to the guest via config drive metadata
@@ -10441,6 +10525,19 @@ var CRDsValidation map[string]string = map[string]string{
                     to the vmi.
                   items:
                     properties:
+                      auth:
+                        description: If specified, will set the disk auth
+                        properties:
+                          secret:
+                            properties:
+                              type:
+                                type: string
+                              usage:
+                                type: string
+                            type: object
+                          username:
+                            type: string
+                        type: object
                       blockSize:
                         description: If specified, the virtual disk will be presented
                           with the given block sizes.
@@ -10573,6 +10670,21 @@ var CRDsValidation map[string]string = map[string]string{
                         description: If specified the disk is made sharable and multiple
                           write from different VMs are permitted
                         type: boolean
+                      source:
+                        description: If specified, will set the disk source
+                        properties:
+                          host:
+                            properties:
+                              name:
+                                type: string
+                              port:
+                                type: string
+                            type: object
+                          name:
+                            type: string
+                          protocol:
+                            type: string
+                        type: object
                       tag:
                         description: If specified, disk address and its tag will be
                           provided to the guest via config drive metadata
@@ -12555,6 +12667,19 @@ var CRDsValidation map[string]string = map[string]string{
                             are connected to the vmi.
                           items:
                             properties:
+                              auth:
+                                description: If specified, will set the disk auth
+                                properties:
+                                  secret:
+                                    properties:
+                                      type:
+                                        type: string
+                                      usage:
+                                        type: string
+                                    type: object
+                                  username:
+                                    type: string
+                                type: object
                               blockSize:
                                 description: If specified, the virtual disk will be
                                   presented with the given block sizes.
@@ -12694,6 +12819,21 @@ var CRDsValidation map[string]string = map[string]string{
                                 description: If specified the disk is made sharable
                                   and multiple write from different VMs are permitted
                                 type: boolean
+                              source:
+                                description: If specified, will set the disk source
+                                properties:
+                                  host:
+                                    properties:
+                                      name:
+                                        type: string
+                                      port:
+                                        type: string
+                                    type: object
+                                  name:
+                                    type: string
+                                  protocol:
+                                    type: string
+                                type: object
                               tag:
                                 description: If specified, disk address and its tag
                                   will be provided to the guest via config drive metadata
@@ -16203,6 +16343,20 @@ var CRDsValidation map[string]string = map[string]string{
                                     which are connected to the vmi.
                                   items:
                                     properties:
+                                      auth:
+                                        description: If specified, will set the disk
+                                          auth
+                                        properties:
+                                          secret:
+                                            properties:
+                                              type:
+                                                type: string
+                                              usage:
+                                                type: string
+                                            type: object
+                                          username:
+                                            type: string
+                                        type: object
                                       blockSize:
                                         description: If specified, the virtual disk
                                           will be presented with the given block sizes.
@@ -16354,6 +16508,22 @@ var CRDsValidation map[string]string = map[string]string{
                                           sharable and multiple write from different
                                           VMs are permitted
                                         type: boolean
+                                      source:
+                                        description: If specified, will set the disk
+                                          source
+                                        properties:
+                                          host:
+                                            properties:
+                                              name:
+                                                type: string
+                                              port:
+                                                type: string
+                                            type: object
+                                          name:
+                                            type: string
+                                          protocol:
+                                            type: string
+                                        type: object
                                       tag:
                                         description: If specified, disk address and
                                           its tag will be provided to the guest via
@@ -20239,6 +20409,20 @@ var CRDsValidation map[string]string = map[string]string{
                                         luns which are connected to the vmi.
                                       items:
                                         properties:
+                                          auth:
+                                            description: If specified, will set the
+                                              disk auth
+                                            properties:
+                                              secret:
+                                                properties:
+                                                  type:
+                                                    type: string
+                                                  usage:
+                                                    type: string
+                                                type: object
+                                              username:
+                                                type: string
+                                            type: object
                                           blockSize:
                                             description: If specified, the virtual
                                               disk will be presented with the given
@@ -20395,6 +20579,22 @@ var CRDsValidation map[string]string = map[string]string{
                                               made sharable and multiple write from
                                               different VMs are permitted
                                             type: boolean
+                                          source:
+                                            description: If specified, will set the
+                                              disk source
+                                            properties:
+                                              host:
+                                                properties:
+                                                  name:
+                                                    type: string
+                                                  port:
+                                                    type: string
+                                                type: object
+                                              name:
+                                                type: string
+                                              protocol:
+                                                type: string
+                                            type: object
                                           tag:
                                             description: If specified, disk address
                                               and its tag will be provided to the
@@ -22070,6 +22270,19 @@ var CRDsValidation map[string]string = map[string]string{
                                 description: Disk represents the hotplug disk that
                                   will be plugged into the running VMI
                                 properties:
+                                  auth:
+                                    description: If specified, will set the disk auth
+                                    properties:
+                                      secret:
+                                        properties:
+                                          type:
+                                            type: string
+                                          usage:
+                                            type: string
+                                        type: object
+                                      username:
+                                        type: string
+                                    type: object
                                   blockSize:
                                     description: If specified, the virtual disk will
                                       be presented with the given block sizes.
@@ -22214,6 +22427,21 @@ var CRDsValidation map[string]string = map[string]string{
                                     description: If specified the disk is made sharable
                                       and multiple write from different VMs are permitted
                                     type: boolean
+                                  source:
+                                    description: If specified, will set the disk source
+                                    properties:
+                                      host:
+                                        properties:
+                                          name:
+                                            type: string
+                                          port:
+                                            type: string
+                                        type: object
+                                      name:
+                                        type: string
+                                      protocol:
+                                        type: string
+                                    type: object
                                   tag:
                                     description: If specified, disk address and its
                                       tag will be provided to the guest via config

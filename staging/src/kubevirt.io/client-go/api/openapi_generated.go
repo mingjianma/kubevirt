@@ -331,7 +331,11 @@ func GetOpenAPIDefinitions(ref common.ReferenceCallback) map[string]common.OpenA
 		"kubevirt.io/api/core/v1.DeveloperConfiguration":                                             schema_kubevirtio_api_core_v1_DeveloperConfiguration(ref),
 		"kubevirt.io/api/core/v1.Devices":                                                            schema_kubevirtio_api_core_v1_Devices(ref),
 		"kubevirt.io/api/core/v1.Disk":                                                               schema_kubevirtio_api_core_v1_Disk(ref),
+		"kubevirt.io/api/core/v1.DiskAuth":                                                           schema_kubevirtio_api_core_v1_DiskAuth(ref),
 		"kubevirt.io/api/core/v1.DiskDevice":                                                         schema_kubevirtio_api_core_v1_DiskDevice(ref),
+		"kubevirt.io/api/core/v1.DiskSecret":                                                         schema_kubevirtio_api_core_v1_DiskSecret(ref),
+		"kubevirt.io/api/core/v1.DiskSource":                                                         schema_kubevirtio_api_core_v1_DiskSource(ref),
+		"kubevirt.io/api/core/v1.DiskSourceHost":                                                     schema_kubevirtio_api_core_v1_DiskSourceHost(ref),
 		"kubevirt.io/api/core/v1.DiskTarget":                                                         schema_kubevirtio_api_core_v1_DiskTarget(ref),
 		"kubevirt.io/api/core/v1.DiskVerification":                                                   schema_kubevirtio_api_core_v1_DiskVerification(ref),
 		"kubevirt.io/api/core/v1.DomainSpec":                                                         schema_kubevirtio_api_core_v1_DomainSpec(ref),
@@ -15566,12 +15570,49 @@ func schema_kubevirtio_api_core_v1_Disk(ref common.ReferenceCallback) common.Ope
 							Format:      "",
 						},
 					},
+					"auth": {
+						SchemaProps: spec.SchemaProps{
+							Description: "If specified, will set the disk auth",
+							Ref:         ref("kubevirt.io/api/core/v1.DiskAuth"),
+						},
+					},
+					"source": {
+						SchemaProps: spec.SchemaProps{
+							Description: "If specified, will set the disk source",
+							Ref:         ref("kubevirt.io/api/core/v1.DiskSource"),
+						},
+					},
 				},
 				Required: []string{"name"},
 			},
 		},
 		Dependencies: []string{
-			"kubevirt.io/api/core/v1.BlockSize", "kubevirt.io/api/core/v1.CDRomTarget", "kubevirt.io/api/core/v1.DiskTarget", "kubevirt.io/api/core/v1.IOTune", "kubevirt.io/api/core/v1.LunTarget"},
+			"kubevirt.io/api/core/v1.BlockSize", "kubevirt.io/api/core/v1.CDRomTarget", "kubevirt.io/api/core/v1.DiskAuth", "kubevirt.io/api/core/v1.DiskSource", "kubevirt.io/api/core/v1.DiskTarget", "kubevirt.io/api/core/v1.IOTune", "kubevirt.io/api/core/v1.LunTarget"},
+	}
+}
+
+func schema_kubevirtio_api_core_v1_DiskAuth(ref common.ReferenceCallback) common.OpenAPIDefinition {
+	return common.OpenAPIDefinition{
+		Schema: spec.Schema{
+			SchemaProps: spec.SchemaProps{
+				Type: []string{"object"},
+				Properties: map[string]spec.Schema{
+					"username": {
+						SchemaProps: spec.SchemaProps{
+							Type:   []string{"string"},
+							Format: "",
+						},
+					},
+					"secret": {
+						SchemaProps: spec.SchemaProps{
+							Ref: ref("kubevirt.io/api/core/v1.DiskSecret"),
+						},
+					},
+				},
+			},
+		},
+		Dependencies: []string{
+			"kubevirt.io/api/core/v1.DiskSecret"},
 	}
 }
 
@@ -15605,6 +15646,85 @@ func schema_kubevirtio_api_core_v1_DiskDevice(ref common.ReferenceCallback) comm
 		},
 		Dependencies: []string{
 			"kubevirt.io/api/core/v1.CDRomTarget", "kubevirt.io/api/core/v1.DiskTarget", "kubevirt.io/api/core/v1.LunTarget"},
+	}
+}
+
+func schema_kubevirtio_api_core_v1_DiskSecret(ref common.ReferenceCallback) common.OpenAPIDefinition {
+	return common.OpenAPIDefinition{
+		Schema: spec.Schema{
+			SchemaProps: spec.SchemaProps{
+				Type: []string{"object"},
+				Properties: map[string]spec.Schema{
+					"type": {
+						SchemaProps: spec.SchemaProps{
+							Type:   []string{"string"},
+							Format: "",
+						},
+					},
+					"usage": {
+						SchemaProps: spec.SchemaProps{
+							Type:   []string{"string"},
+							Format: "",
+						},
+					},
+				},
+			},
+		},
+	}
+}
+
+func schema_kubevirtio_api_core_v1_DiskSource(ref common.ReferenceCallback) common.OpenAPIDefinition {
+	return common.OpenAPIDefinition{
+		Schema: spec.Schema{
+			SchemaProps: spec.SchemaProps{
+				Type: []string{"object"},
+				Properties: map[string]spec.Schema{
+					"protocol": {
+						SchemaProps: spec.SchemaProps{
+							Type:   []string{"string"},
+							Format: "",
+						},
+					},
+					"name": {
+						SchemaProps: spec.SchemaProps{
+							Type:   []string{"string"},
+							Format: "",
+						},
+					},
+					"host": {
+						SchemaProps: spec.SchemaProps{
+							Ref: ref("kubevirt.io/api/core/v1.DiskSourceHost"),
+						},
+					},
+				},
+			},
+		},
+		Dependencies: []string{
+			"kubevirt.io/api/core/v1.DiskSourceHost"},
+	}
+}
+
+func schema_kubevirtio_api_core_v1_DiskSourceHost(ref common.ReferenceCallback) common.OpenAPIDefinition {
+	return common.OpenAPIDefinition{
+		Schema: spec.Schema{
+			SchemaProps: spec.SchemaProps{
+				Type: []string{"object"},
+				Properties: map[string]spec.Schema{
+					"name": {
+						SchemaProps: spec.SchemaProps{
+							Type:   []string{"string"},
+							Format: "",
+						},
+					},
+					"port": {
+						SchemaProps: spec.SchemaProps{
+							Type:   []string{"string"},
+							Format: "",
+						},
+					},
+				},
+			},
+		},
 	}
 }
 

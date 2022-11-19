@@ -4110,6 +4110,294 @@ rpm(
 )
 
 rpm(
+    name = "boost-atomic-1.66.0-10.el8.x86_64",
+    sha256 = "23e9fec38ad8a8afab8f7f04fe379feb672d4ee1214cffc338a18c9a1b420d75",
+    urls = [
+        "https://repo.huaweicloud.com/centos/8-stream/AppStream/x86_64/os/Packages/boost-atomic-1.66.0-10.el8.x86_64.rpm",
+    ],
+)
+
+rpm(
+    name = "boost-chrono-1.66.0-10.el8.x86_64",
+    sha256 = "3f7d1a06741d34174a73f230434164deba03752004b254d2c75a8934756f1292",
+    urls = [
+        "https://repo.huaweicloud.com/centos/8-stream/AppStream/x86_64/os/Packages/boost-chrono-1.66.0-10.el8.x86_64.rpm",
+    ],
+)
+
+rpm(
+    name = "boost-date-time-1.66.0-10.el8.x86_64",
+    sha256 = "620537b5f3f6a3fd6c3fe887eebbac56ae1c878d989d64aae50d08f7481b377b",
+    urls = [
+        "https://repo.huaweicloud.com/centos/8-stream/AppStream/x86_64/os/Packages/boost-date-time-1.66.0-10.el8.x86_64.rpm",
+    ],
+)
+
+rpm(
+    name = "boost-iostreams-1.66.0-10.el8.x86_64",
+    sha256 = "785eb0669099397b2b7d5b2e5554f2c2cc19d053b7db994e3dd45cd69405d3bc",
+    urls = [
+        "https://repo.huaweicloud.com/centos/8-stream/AppStream/x86_64/os/Packages/boost-iostreams-1.66.0-10.el8.x86_64.rpm",
+    ],
+)
+
+rpm(
+    name = "boost-program-options-1.66.0-10.el8.x86_64",
+    sha256 = "da68048ba572927abac063a05a271297ff80e8c997df88a3c914e69cb5fbaf04",
+    urls = [
+        "https://repo.huaweicloud.com/centos/8-stream/AppStream/x86_64/os/Packages/boost-program-options-1.66.0-10.el8.x86_64.rpm",
+    ],
+)
+
+rpm(
+    name = "boost-random-1.66.0-10.el8.x86_64",
+    sha256 = "76a60a3fbc094094a5d3187721fb742641001273458bce2262f311e4806130ec",
+    urls = [
+        "https://repo.huaweicloud.com/centos/8-stream/AppStream/x86_64/os/Packages/boost-random-1.66.0-10.el8.x86_64.rpm",
+    ],
+)
+
+rpm(
+    name = "boost-regex-1.66.0-10.el8.x86_64",
+    sha256 = "fb84199a020f6a4e22a7370b3713e8b4f87bb9e6bf6175db23e301aa039641a3",
+    urls = [
+        "https://repo.huaweicloud.com/centos/8-stream/AppStream/x86_64/os/Packages/boost-regex-1.66.0-10.el8.x86_64.rpm",
+    ],
+)
+
+rpm(
+    name = "boost-system-1.66.0-10.el8.x86_64",
+    sha256 = "1c3a384d37f1e1fc52ba78fb904ebba34a919e7057dc3eaba821814676feba52",
+    urls = [
+        "https://repo.huaweicloud.com/centos/8-stream/AppStream/x86_64/os/Packages/boost-system-1.66.0-10.el8.x86_64.rpm",
+    ],
+)
+
+rpm(
+    name = "boost-thread-1.66.0-10.el8.x86_64",
+    sha256 = "0b333ca8bbd8dd4bd858d4dbb64f87cb931fad4dd2a7af5afbd0d93d651c7c2d",
+    urls = [
+        "https://repo.huaweicloud.com/centos/8-stream/AppStream/x86_64/os/Packages/boost-thread-1.66.0-10.el8.x86_64.rpm",
+    ],
+)
+
+rpm(
+    name = "crypto-policies-scripts-20210617-1.gitc776d3e.el8",
+    sha256 = "67f37cee02ba744dfc7957725f5ef9df229778f6a2f7afc659625b458da6167e",
+    urls = [
+        "https://repo.huaweicloud.com/centos/8-stream/BaseOS/x86_64/os/Packages/crypto-policies-scripts-20210617-1.gitc776d3e.el8.noarch.rpm",
+    ],
+)
+
+rpm(
+    name = "libicu-60.3-2.el8_1.x86_64",
+    sha256 = "d703112d21afadf069e0ba6ef2a34b0ef760ccc969a2b7dd5d38761113c3d17e",
+    urls = [
+        "https://repo.huaweicloud.com/centos/8-stream/BaseOS/x86_64/os/Packages/libicu-60.3-2.el8_1.x86_64.rpm",
+    ],
+)
+
+rpm(
+    name = "librados2-12.2.7-9.el8.x86_64",
+    sha256 = "26fc737517bc0b60150e662337000007299d7579376370bc9b907a7fe446a3f0",
+    urls = [
+        "https://repo.huaweicloud.com/centos/8-stream/AppStream/x86_64/os/Packages/librados2-12.2.7-9.el8.x86_64.rpm",
+    ],
+)
+
+rpm(
+    name = "librbd1-12.2.7-9.el8.x86_64",
+    sha256 = "f149e46f0f6a31f1af8bdc52385098c66c4c9fa538b5087ed98c357077463128",
+    urls = [
+        "https://repo.huaweicloud.com/centos/8-stream/AppStream/x86_64/os/Packages/librbd1-12.2.7-9.el8.x86_64.rpm",
+    ],
+)
+
+rpm(
+    name = "nspr-4.32.0-1.el8_4.x86_64",
+    sha256 = "ac40c0ecf0cc0da34fd1fe20b75800e501769163df7f9730fd8bb8c085b7313f",
+    urls = [
+        "https://repo.huaweicloud.com/centos/8-stream/AppStream/x86_64/os/Packages/nspr-4.32.0-1.el8_4.x86_64.rpm",
+    ],
+)
+
+rpm(
+    name = "nss-3.67.0-7.el8_5.x86_64",
+    sha256 = "37671bebd95fced0140d2ed7b514cdde944fe99250e0df13ee7b9538a7f35d38",
+    urls = [
+        "https://repo.huaweicloud.com/centos/8-stream/AppStream/x86_64/os/Packages/nss-3.67.0-7.el8_5.x86_64.rpm",
+    ],
+)
+
+rpm(
+    name = "nss-softokn-3.67.0-7.el8_5.x86_64",
+    sha256 = "940494444260f8437c62cfbe386666ab09ce6ed9fe898054e4917a792152e34f",
+    urls = [
+        "https://repo.huaweicloud.com/centos/8-stream/AppStream/x86_64/os/Packages/nss-softokn-3.67.0-7.el8_5.x86_64.rpm",
+    ],
+)
+
+rpm(
+    name = "nss-softokn-freebl-3.67.0-7.el8_5.x86_64",
+    sha256 = "60927fc50f4b00fa6caa99fbb1867c96bd3fbfa40e52b6711729f51ffd078da4",
+    urls = [
+        "https://repo.huaweicloud.com/centos/8-stream/AppStream/x86_64/os/Packages/nss-softokn-freebl-3.67.0-7.el8_5.x86_64.rpm",
+    ],
+)
+
+rpm(
+    name = "nss-sysinit-3.67.0-7.el8_5.x86_64",
+    sha256 = "e229450d4102dfb9fbf7b191322263cde7a93e52a57d3e46027b604062957396",
+    urls = [
+        "https://repo.huaweicloud.com/centos/8-stream/AppStream/x86_64/os/Packages/nss-sysinit-3.67.0-7.el8_5.x86_64.rpm",
+    ],
+)
+
+rpm(
+    name = "nss-util-3.67.0-7.el8_5.x86_64",
+    sha256 = "3908e270329a345f33033898ccbcaa9dbe2015380c78486d4e79f761f4135b4b",
+    urls = [
+        "https://repo.huaweicloud.com/centos/8-stream/AppStream/x86_64/os/Packages/nss-util-3.67.0-7.el8_5.x86_64.rpm",
+    ],
+)
+
+rpm(
+    name = "qemu-kvm-block-rbd-6.0.0-33.el8s.x86_64",
+    sha256 = "6d1a33280c7af352dc0909f63c2ae3bf0dd158f598b395bf6bc081df3729f0ae",
+    urls = [
+        "https://repo.huaweicloud.com/centos/8-stream/virt/x86_64/advancedvirt-common/Packages/q/qemu-kvm-block-rbd-6.0.0-33.el8s.x86_64.rpm",
+    ],
+)
+
+rpm(
+    name = "libvirt-daemon-driver-storage-core-7.6.0-6.el8s.x86_64",
+    sha256 = "e7551cae9d5b38e5b9e2129d714525841c6d0644c2a500720c1a90f9997ed55a",
+    urls = [
+        "https://repo.huaweicloud.com/centos/8-stream/virt/x86_64/advancedvirt-common/Packages/l/libvirt-daemon-driver-storage-core-7.6.0-6.el8s.x86_64.rpm",
+    ],
+)
+
+rpm(
+    name = "gssproxy-0.8.0-19.el8.x86_64",
+    sha256 = "881bdb9aa79de1933dc553fcf0b6597897b60e0e4b73a369572e4d9460fab439",
+    urls = [
+        "https://repo.huaweicloud.com/centos/8-stream/BaseOS/x86_64/os/Packages/gssproxy-0.8.0-19.el8.x86_64.rpm",
+    ],
+)
+
+rpm(
+    name = "libbasicobjects-0.1.1-39.el8.x86_64",
+    sha256 = "5452b96e4b57c275dd41e48d55af1ca4f77ccfb3ae403796e599a039d7382b91",
+    urls = [
+        "https://repo.huaweicloud.com/centos/8-stream/BaseOS/x86_64/os/Packages/libbasicobjects-0.1.1-39.el8.x86_64.rpm",
+    ],
+)
+
+rpm(
+    name = "libcollection-0.7.0-39.el8.x86_64",
+    sha256 = "708a8fd75f7c6987d66e2d62de664b5a84c6f75fd4e5230e244681897b15a25d",
+    urls = [
+        "https://repo.huaweicloud.com/centos/8-stream/BaseOS/x86_64/os/Packages/libcollection-0.7.0-39.el8.x86_64.rpm",
+    ],
+)
+
+rpm(
+    name = "libini_config-1.3.1-39.el8.x86_64",
+    sha256 = "b06fa62d0a585a7bc3b9d3341923736b3ee4b6cc6d7ca83bebcb97225ca86ac9",
+    urls = [
+        "https://repo.huaweicloud.com/centos/8-stream/BaseOS/x86_64/os/Packages/libini_config-1.3.1-39.el8.x86_64.rpm",
+    ],
+)
+
+rpm(
+    name = "libnfsidmap-2.3.3-46.el8.x86_64",
+    sha256 = "077bab9ee9f2fdf841f66c55b2db6a6b9c36bf888415d8e42c0ef6141f5735b3",
+    urls = [
+        "https://repo.huaweicloud.com/centos/8-stream/BaseOS/x86_64/os/Packages/libnfsidmap-2.3.3-46.el8.x86_64.rpm",
+    ],
+)
+
+rpm(
+    name = "libpath_utils-0.2.1-39.el8.x86_64",
+    sha256 = "185f36b3af9367e6142233af358df22f23ee623697bc6a45c47091013707872e",
+    urls = [
+        "https://repo.huaweicloud.com/centos/8-stream/BaseOS/x86_64/os/Packages/libpath_utils-0.2.1-39.el8.x86_64.rpm",
+    ],
+)
+
+rpm(
+    name = "libref_array-0.1.5-39.el8.x86_64",
+    sha256 = "6b740563ba5858573ff3c2d2a827aeaf6e7166178e36066755d2cde4cf8a016f",
+    urls = [
+        "https://repo.huaweicloud.com/centos/8-stream/BaseOS/x86_64/os/Packages/libref_array-0.1.5-39.el8.x86_64.rpm",
+    ],
+)
+
+rpm(
+    name = "libverto-libevent-0.3.0-5.el8.x86_64",
+    sha256 = "538899f9a39e085ef14bd34f84327c12b862981df1428bb1353ef4082ddd3a4c",
+    urls = [
+        "https://repo.huaweicloud.com/centos/8-stream/BaseOS/x86_64/os/Packages/libverto-libevent-0.3.0-5.el8.x86_64.rpm",
+    ],
+)
+
+rpm(
+    name = "nfs-utils-2.3.3-46.el8.x86_64",
+    sha256 = "09484e7f9e73aa755403bd5e7bab73404afb9ab06778f0800b5d7945fda6396f",
+    urls = [
+        "https://repo.huaweicloud.com/centos/8-stream/BaseOS/x86_64/os/Packages/nfs-utils-2.3.3-46.el8.x86_64.rpm",
+    ],
+)
+
+rpm(
+    name = "python3-pyyaml-3.12-12.el8.x86_64",
+    sha256 = "525393e4d658e395c6280bd2ff4afe54999796c4722986325297ba4bfade3ea5",
+    urls = [
+        "https://repo.huaweicloud.com/centos/8-stream/BaseOS/x86_64/os/Packages/python3-pyyaml-3.12-12.el8.x86_64.rpm",
+    ],
+)
+
+rpm(
+    name = "quota-4.04-14.el8.x86_64",
+    sha256 = "cce5f4086e7ecc31a12b753b5d0d97cb6d6c6f61e5c3066322449781ab1f63d0",
+    urls = [
+        "https://repo.huaweicloud.com/centos/8-stream/BaseOS/x86_64/os/Packages/quota-4.04-14.el8.x86_64.rpm",
+    ],
+)
+
+rpm(
+    name = "quota-nls-4.04-14.el8",
+    sha256 = "bc7fc2028a29ac7a406719ed4f6740f6bf12c20961223c1e839a2a39069af38d",
+    urls = [
+        "https://repo.huaweicloud.com/centos/8-stream/BaseOS/x86_64/os/Packages/quota-nls-4.04-14.el8.noarch.rpm",
+    ],
+)
+
+rpm(
+    name = "rpcbind-1.2.5-8.el8.x86_64",
+    sha256 = "e76ffaf54db6ac36f0aa56c8013431c352c6187c8d674c6d468e25c573e31597",
+    urls = [
+        "https://repo.huaweicloud.com/centos/8-stream/BaseOS/x86_64/os/Packages/rpcbind-1.2.5-8.el8.x86_64.rpm",
+    ],
+)
+
+rpm(
+    name = "libvirt-daemon-driver-storage-rbd-7.6.0-6.el8s.x86_64",
+    sha256 = "a37a02e4fae3d62211f8d09760374c34dd5805d2c95a7c59d01bcd316dd488a3",
+    urls = [
+        "http://mirror.centos.org/centos/8-stream/virt/x86_64/advancedvirt-common/Packages/l/libvirt-daemon-driver-storage-rbd-7.6.0-6.el8s.x86_64.rpm",
+    ],
+)
+
+rpm(
+    name = "libvirt-daemon-driver-secret-7.6.0-6.el8s.x86_64",
+    sha256 = "21717e19f137c3cfcfffe74cb2c8fab68d0b5c9e0f57fb3ce3f1789b92fda632",
+    urls = [
+        "http://mirror.centos.org/centos/8-stream/virt/x86_64/advancedvirt-common/Packages/l/libvirt-daemon-driver-secret-7.6.0-6.el8s.x86_64.rpm",
+    ],
+)
+
+rpm(
     name = "readline-0__7.0-10.el8.aarch64",
     sha256 = "ef74f2c65ed0e38dd021177d6e59fcdf7fb8de8929b7544b7a6f0709eff6562c",
     urls = [

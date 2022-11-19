@@ -839,6 +839,8 @@ const (
 
 	// Add how much pcie-root-port controllers used for q35 machine hotplug virtio-blk disk
 	EcxPciPortNumAnnotation string = "ecx.io/pci-port-num"
+
+	IPRouteAnnotation string = "kubevirt.io/iproute"
 )
 
 func NewVMI(name string, uid types.UID) *VirtualMachineInstance {

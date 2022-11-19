@@ -588,6 +588,33 @@ type Disk struct {
 	// If specified, error_policy will be provided to the guest via config drive metadata
 	// +optional
 	ErrorPolicy string `json:"errorPolicy,omitempty"`
+	// If specified, will set the disk auth
+	// +optional
+	Auth *DiskAuth `json:"auth,omitempty"`
+	// If specified, will set the disk source
+	// +optional
+	Source *DiskSource `json:"source,omitempty"`
+}
+
+type DiskSource struct {
+	Protocol string          `json:"protocol,omitempty"`
+	Name     string          `json:"name,omitempty"`
+	Host     *DiskSourceHost `json:"host,omitempty"`
+}
+
+type DiskSourceHost struct {
+	Name string `json:"name,omitempty"`
+	Port string `json:"port,omitempty"`
+}
+
+type DiskAuth struct {
+	Username string      `json:"username,omitempty"`
+	Secret   *DiskSecret `json:"secret,omitempty"`
+}
+
+type DiskSecret struct {
+	Type  string `json:"type,omitempty"`
+	Usage string `json:"usage,omitempty"`
 }
 
 // CustomBlockSize represents the desired logical and physical block size for a VM disk.

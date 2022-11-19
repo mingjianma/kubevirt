@@ -924,7 +924,7 @@ func validateBootOrder(field *k8sfield.Path, spec *v1.VirtualMachineInstanceSpec
 
 		matchingVolume, volumeExists := volumeNameMap[disk.Name]
 
-		if !volumeExists {
+		if !volumeExists && disk.Source == nil {
 			causes = append(causes, metav1.StatusCause{
 				Type:    metav1.CauseTypeFieldValueInvalid,
 				Message: fmt.Sprintf(nameOfTypeNotFoundMessagePattern, field.Child("domain", "devices", "disks").Index(idx).Child("Name").String(), disk.Name),
@@ -972,6 +972,10 @@ func validateBootOrder(field *k8sfield.Path, spec *v1.VirtualMachineInstanceSpec
 		}
 
 		diskAndFilesystemNames[disk.Name] = struct{}{}
+
+		if disk.Auth != nil && disk.Auth.Secret != nil {
+			diskAndFilesystemNames[disk.Auth.Secret.Usage] = struct{}{}
+		}
 	}
 
 	for _, fs := range spec.Domain.Devices.Filesystems {
@@ -980,7 +984,7 @@ func validateBootOrder(field *k8sfield.Path, spec *v1.VirtualMachineInstanceSpec
 
 	// Validate that volumes match disks and filesystems correctly
 	for idx, volume := range spec.Volumes {
-		if _, matchingDiskExists := diskAndFilesystemNames[volume.Name]; !matchingDiskExists {
+		if _, matchingDiskExists := diskAndFilesystemNames[volume.Name]; !matchingDiskExists && volume.Name != "ceph-config" {
 			causes = append(causes, metav1.StatusCause{
 				Type:    metav1.CauseTypeFieldValueInvalid,
 				Message: fmt.Sprintf(nameOfTypeNotFoundMessagePattern, field.Child("domain", "volumes").Index(idx).Child("name").String(), volume.Name),

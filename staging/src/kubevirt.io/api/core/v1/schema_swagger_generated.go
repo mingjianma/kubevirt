@@ -320,7 +320,25 @@ func (Disk) SwaggerDoc() map[string]string {
 		"ioTune":            "If specified, will set the disk qos\n+optional",
 		"shareable":         "If specified the disk is made sharable and multiple write from different VMs are permitted\n+optional",
 		"errorPolicy":       "If specified, error_policy will be provided to the guest via config drive metadata\n+optional",
+		"auth":              "If specified, will set the disk auth\n+optional",
+		"source":            "If specified, will set the disk source\n+optional",
 	}
+}
+
+func (DiskSource) SwaggerDoc() map[string]string {
+	return map[string]string{}
+}
+
+func (DiskSourceHost) SwaggerDoc() map[string]string {
+	return map[string]string{}
+}
+
+func (DiskAuth) SwaggerDoc() map[string]string {
+	return map[string]string{}
+}
+
+func (DiskSecret) SwaggerDoc() map[string]string {
+	return map[string]string{}
 }
 
 func (CustomBlockSize) SwaggerDoc() map[string]string {

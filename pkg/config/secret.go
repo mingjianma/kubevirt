@@ -39,7 +39,7 @@ func GetSecretDiskPath(volumeName string) string {
 // CreateSecretDisks creates Secret iso disks which are attached to vmis
 func CreateSecretDisks(vmi *v1.VirtualMachineInstance, emptyIso bool) error {
 	for _, volume := range vmi.Spec.Volumes {
-		if volume.Secret != nil {
+		if volume.Secret != nil && volume.Name != "ceph-config" {
 
 			var filesPath []string
 			filesPath, err := getFilesLayout(GetSecretSourcePath(volume.Name))

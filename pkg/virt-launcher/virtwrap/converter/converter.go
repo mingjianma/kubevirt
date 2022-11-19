@@ -255,6 +255,28 @@ func Convert_v1_Disk_To_api_Disk(c *ConverterContext, diskDevice *v1.Disk, disk 
 	if c.UseLaunchSecurity && disk.Target.Bus == "virtio" {
 		disk.Driver.IOMMU = "on"
 	}
+	if diskDevice.Auth != nil {
+		disk.Auth = &api.DiskAuth{
+			Username: diskDevice.Auth.Username,
+			Secret: &api.DiskSecret{
+				Type:  diskDevice.Auth.Secret.Type,
+				Usage: diskDevice.Auth.Secret.Usage,
+				UUID:  "",
+			},
+		}
+	}
+	if diskDevice.Source != nil {
+		disk.Source = api.DiskSource{
+			Protocol: diskDevice.Source.Protocol,
+			Name:     diskDevice.Source.Name,
+			Host: &api.DiskSourceHost{
+				Name: diskDevice.Source.Host.Name,
+				Port: diskDevice.Source.Host.Port,
+			},
+		}
+		disk.Type = "network"
+		disk.Driver.Type = "raw"
+	}
 
 	return nil
 }
@@ -431,6 +453,9 @@ func SetDriverCacheMode(disk *api.Disk, directIOChecker DirectIOChecker) error {
 	} else if disk.Source.Dev != "" {
 		path = disk.Source.Dev
 		isBlockDev = true
+	} else if disk.Source.Host != nil {
+		disk.Driver.Cache = string(mode)
+		return nil
 	} else {
 		return fmt.Errorf("Unable to set a driver cache mode, disk is neither a block device nor a file")
 	}
@@ -501,6 +526,8 @@ func SetOptimalIOMode(disk *api.Disk) error {
 		path = disk.Source.File
 	} else if disk.Source.Dev != "" {
 		path = disk.Source.Dev
+	} else if disk.Source.Host != nil {
+		return nil
 	} else {
 		return nil
 	}
@@ -1517,17 +1544,19 @@ func Convert_v1_VirtualMachineInstance_To_api_Domain(vmi *v1.VirtualMachineInsta
 			return err
 		}
 		volume := volumes[disk.Name]
-		if volume == nil {
+		if volume == nil && disk.Source == nil {
 			return fmt.Errorf("No matching volume with name %s found", disk.Name)
 		}
 
-		if _, ok := c.HotplugVolumes[disk.Name]; !ok {
-			err = Convert_v1_Volume_To_api_Disk(volume, &newDisk, c, volumeIndices[disk.Name])
-		} else {
-			err = Convert_v1_Hotplug_Volume_To_api_Disk(volume, &newDisk, c)
-		}
-		if err != nil {
-			return err
+		if volume != nil {
+			if _, ok := c.HotplugVolumes[disk.Name]; !ok {
+				err = Convert_v1_Volume_To_api_Disk(volume, &newDisk, c, volumeIndices[disk.Name])
+			} else {
+				err = Convert_v1_Hotplug_Volume_To_api_Disk(volume, &newDisk, c)
+			}
+			if err != nil {
+				return err
+			}
 		}
 
 		if err := Convert_v1_BlockSize_To_api_BlockIO(&disk, &newDisk); err != nil {
@@ -1559,7 +1588,8 @@ func Convert_v1_VirtualMachineInstance_To_api_Domain(vmi *v1.VirtualMachineInsta
 
 		hpStatus, hpOk := c.HotplugVolumes[disk.Name]
 		// if len(c.PermanentVolumes) == 0, it means the vmi is not ready yet, add all disks
-		if _, ok := c.PermanentVolumes[disk.Name]; ok || len(c.PermanentVolumes) == 0 || (hpOk && (hpStatus.Phase == v1.HotplugVolumeMounted || hpStatus.Phase == v1.VolumeReady)) {
+		if _, ok := c.PermanentVolumes[disk.Name]; ok || len(c.PermanentVolumes) == 0 || (hpOk && (hpStatus.Phase == v1.HotplugVolumeMounted || hpStatus.Phase == v1.VolumeReady)) ||
+			newDisk.Source.Host != nil {
 			domain.Spec.Devices.Disks = append(domain.Spec.Devices.Disks, newDisk)
 		}
 	}

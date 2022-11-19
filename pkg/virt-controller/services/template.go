@@ -653,21 +653,39 @@ func (t *templateService) renderLaunchManifest(vmi *v1.VirtualMachineInstance, i
 		}
 
 		if volume.Secret != nil {
-			// attach a Secret to the pod
-			volumeMounts = append(volumeMounts, k8sv1.VolumeMount{
-				Name:      volume.Name,
-				MountPath: filepath.Join(config.SecretSourceDir, volume.Name),
-				ReadOnly:  true,
-			})
-			volumes = append(volumes, k8sv1.Volume{
-				Name: volume.Name,
-				VolumeSource: k8sv1.VolumeSource{
-					Secret: &k8sv1.SecretVolumeSource{
-						SecretName: volume.Secret.SecretName,
-						Optional:   volume.Secret.Optional,
+			if volume.Name == "ceph-config" {
+				// attach a Secret to the pod
+				volumeMounts = append(volumeMounts, k8sv1.VolumeMount{
+					Name:      volume.Name,
+					MountPath: "/etc/ceph",
+					ReadOnly:  true,
+				})
+				volumes = append(volumes, k8sv1.Volume{
+					Name: volume.Name,
+					VolumeSource: k8sv1.VolumeSource{
+						Secret: &k8sv1.SecretVolumeSource{
+							SecretName: volume.Secret.SecretName,
+							Optional:   volume.Secret.Optional,
+						},
 					},
-				},
-			})
+				})
+			} else {
+				// attach a Secret to the pod
+				volumeMounts = append(volumeMounts, k8sv1.VolumeMount{
+					Name:      volume.Name,
+					MountPath: filepath.Join(config.SecretSourceDir, volume.Name),
+					ReadOnly:  true,
+				})
+				volumes = append(volumes, k8sv1.Volume{
+					Name: volume.Name,
+					VolumeSource: k8sv1.VolumeSource{
+						Secret: &k8sv1.SecretVolumeSource{
+							SecretName: volume.Secret.SecretName,
+							Optional:   volume.Secret.Optional,
+						},
+					},
+				})
+			}
 		}
 
 		if volume.DownwardAPI != nil {

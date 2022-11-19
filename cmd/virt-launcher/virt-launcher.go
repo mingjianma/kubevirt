@@ -22,7 +22,6 @@ package main
 import (
 	goflag "flag"
 	"fmt"
-	virtconfig "kubevirt.io/kubevirt/pkg/virt-config"
 	"net/http"
 	"os"
 	"os/exec"
@@ -32,6 +31,8 @@ import (
 	"strconv"
 	"syscall"
 	"time"
+
+	virtconfig "kubevirt.io/kubevirt/pkg/virt-config"
 
 	"github.com/spf13/pflag"
 	"k8s.io/apimachinery/pkg/types"

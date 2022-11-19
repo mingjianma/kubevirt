@@ -309,13 +309,13 @@ func (app *virtHandlerApp) Run() {
 	var capabilities *api.Capabilities
 	// TODO 临时注释兼容AARCH64，否则不支持cpu绑定等特性
 	//if virtconfig.IsAMD64(runtime.GOARCH) {
-		nodeLabellerController, err := nodelabeller.NewNodeLabeller(app.clusterConfig, app.virtCli, app.HostOverride, app.namespace)
-		if err != nil {
-			panic(err)
-		}
-		capabilities = nodeLabellerController.HostCapabilities()
+	nodeLabellerController, err := nodelabeller.NewNodeLabeller(app.clusterConfig, app.virtCli, app.HostOverride, app.namespace)
+	if err != nil {
+		panic(err)
+	}
+	capabilities = nodeLabellerController.HostCapabilities()
 
-		go nodeLabellerController.Run(10, stop)
+	go nodeLabellerController.Run(10, stop)
 	//}
 
 	migrationIpAddress := app.PodIpAddress
