@@ -4198,18 +4198,42 @@ rpm(
 )
 
 rpm(
-    name = "librados2-12.2.7-9.el8.x86_64",
-    sha256 = "26fc737517bc0b60150e662337000007299d7579376370bc9b907a7fe446a3f0",
+    name = "lttng-ust-2.8.1-11.el8.x86_64",
+    sha256 = "d729c76c7de8bbd1dc137cfeb1d09ac937d786693cb035d55aa0a773dcc3464e",
     urls = [
-        "https://repo.huaweicloud.com/centos/8-stream/AppStream/x86_64/os/Packages/librados2-12.2.7-9.el8.x86_64.rpm",
+        "https://repo.huaweicloud.com/centos/8-stream/AppStream/x86_64/os/Packages/lttng-ust-2.8.1-11.el8.x86_64.rpm",
     ],
 )
 
 rpm(
-    name = "librbd1-12.2.7-9.el8.x86_64",
-    sha256 = "f149e46f0f6a31f1af8bdc52385098c66c4c9fa538b5087ed98c357077463128",
+    name = "rdma-core-37.2-1.el8.x86_64",
+    sha256 = "b8a170609b0f6d33eb98caf69c67c99a2cfd7a38cd059ed590addde541aab486",
     urls = [
-        "https://repo.huaweicloud.com/centos/8-stream/AppStream/x86_64/os/Packages/librbd1-12.2.7-9.el8.x86_64.rpm",
+        "https://repo.huaweicloud.com/centos/8-stream/BaseOS/x86_64/os/Packages/rdma-core-37.2-1.el8.x86_64.rpm",
+    ],
+)
+
+rpm(
+    name = "libibverbs-37.2-1.el8.x86_64",
+    sha256 = "146616aaa85d8b44dd554db70468e4237d88dd5f4335b40e3c28209554d86102",
+    urls = [
+        "https://repo.huaweicloud.com/centos/8-stream/BaseOS/x86_64/os/Packages/libibverbs-37.2-1.el8.x86_64.rpm",
+    ],
+)
+
+rpm(
+    name = "librados2-17.2.5-0.el8.x86_64",
+    sha256 = "47d4ff472208d3b87cc5b6e5fe390be1a87997c8a259d006bfea37e113d82a61",
+    urls = [
+        "https://download.ceph.com/rpm-17.2.5/el8/x86_64/librados2-17.2.5-0.el8.x86_64.rpm",
+    ],
+)
+
+rpm(
+    name = "librbd1-17.2.5-0.el8.x86_64",
+    sha256 = "7d4298e45993ac77cca9ab5e38eb7028277d774c24e0dc9afa724a3b27424d00",
+    urls = [
+        "https://download.ceph.com/rpm-17.2.5/el8/x86_64/librbd1-17.2.5-0.el8.x86_64.rpm",
     ],
 )
 
