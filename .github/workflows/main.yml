@@ -81,6 +81,7 @@ jobs:
           echo "root:${{ secrets.RSYNC_PASSWD }}" > $HOME/rsyncd/rsync.passwd
           echo "${{ secrets.RSYNC_PASSWD }}" > $HOME/rsyncd/rsyncd.pass
           chmod 600 $HOME/rsyncd/rsyncd.pass
+          git config --global --add safe.directory /root/go/src/kubevirt.io/kubevirt
 
       - name: Login to DockerHub
         uses: docker/login-action@v2
