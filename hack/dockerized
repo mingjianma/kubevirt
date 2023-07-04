@@ -57,7 +57,7 @@ RSYNCD_PORT=$($KUBEVIRT_CRI port $RSYNC_CID 873 | cut -d':' -f2)
 
 rsynch_fail_count=0
 
-while ! rsync --password-file=$HOME/rsyncd/rsyncd.pass ${KUBEVIRT_DIR}/${RSYNCTEMP} "rsync://root@127.0.0.1:${RSYNCD_PORT}/build/${RSYNCTEMP}" &>/dev/null; do
+while ! rsync --password-file=$HOME/rsyncd/rsyncd.pass ${KUBEVIRT_DIR}/${RSYNCTEMP} "rsync://runner@127.0.0.1:${RSYNCD_PORT}/build/${RSYNCTEMP}" &>/dev/null; do
     if [[ "$rsynch_fail_count" -eq 0 ]]; then
         printf "Waiting for rsyncd to be ready"
         sleep .1
@@ -94,7 +94,7 @@ _rsync \
     --exclude ".vagrant" \
     --exclude ".bazeldnf" \
     ${KUBEVIRT_DIR}/ \
-    "rsync://root@127.0.0.1:${RSYNCD_PORT}/build"
+    "rsync://runner@127.0.0.1:${RSYNCD_PORT}/build"
 
 volumes="-v ${BUILDER}:/root:rw,z"
 
@@ -173,15 +173,15 @@ _rsync \
     --exclude ".vagrant" \
     --exclude ".git" \
     --exclude ".bazeldnf" \
-    "rsync://root@127.0.0.1:${RSYNCD_PORT}/build" \
+    "rsync://runner@127.0.0.1:${RSYNCD_PORT}/build" \
     ${KUBEVIRT_DIR}/
 
-_rsync --delete "rsync://root@127.0.0.1:${RSYNCD_PORT}/build/manifests/generated/" "${KUBEVIRT_DIR}/manifests/generated"
-_rsync --delete "rsync://root@127.0.0.1:${RSYNCD_PORT}/build/examples/" "${KUBEVIRT_DIR}/examples"
+_rsync --delete "rsync://runner@127.0.0.1:${RSYNCD_PORT}/build/manifests/generated/" "${KUBEVIRT_DIR}/manifests/generated"
+_rsync --delete "rsync://runner@127.0.0.1:${RSYNCD_PORT}/build/examples/" "${KUBEVIRT_DIR}/examples"
 if [ "$SYNC_VENDOR" = "true" ]; then
-    _rsync --delete "rsync://root@127.0.0.1:${RSYNCD_PORT}/vendor" "${VENDOR_DIR}/"
+    _rsync --delete "rsync://runner@127.0.0.1:${RSYNCD_PORT}/vendor" "${VENDOR_DIR}/"
 fi
 # Copy the build output out of the container, make sure that _out exactly matches the build result
 if [ "$SYNC_OUT" = "true" ]; then
-    _rsync --delete "rsync://root@127.0.0.1:${RSYNCD_PORT}/out" ${OUT_DIR}
+    _rsync --delete "rsync://runner@127.0.0.1:${RSYNCD_PORT}/out" ${OUT_DIR}
 fi
