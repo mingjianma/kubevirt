@@ -12,7 +12,8 @@ fi
 
 fail_if_cri_bin_missing
 
-KUBEVIRT_BUILDER_IMAGE="registry.eecos.cn:7443/eci/kubevirt/builder:2307040018-e1ab2dda9"
+KUBEVIRT_BUILDER_IMAGE="registry.eecos.cn:7443/eci/kubevirt/builder:2307041133-e1ab2dda9"
+
 
 SYNC_OUT=${SYNC_OUT:-true}
 
