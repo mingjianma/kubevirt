@@ -32,10 +32,10 @@ jobs:
           
       - name: Configure rsync passwd
         run: |
-          mkdir -p ~/rsyncd/
-          echo "root:${{ secrets.RSYNC_PASSWD }}" > ~/rsyncd/rsync.passwd
-          echo "${{ secrets.RSYNC_PASSWD }}" > ~/rsyncd/rsyncd.pass
-          chmod 600 ~/rsyncd/rsyncd.pass
+          mkdir -p $HOME/rsyncd/
+          echo "root:${{ secrets.RSYNC_PASSWD }}" > $HOME/rsyncd/rsync.passwd
+          echo "${{ secrets.RSYNC_PASSWD }}" > $HOME/rsyncd/rsyncd.pass
+          chmod 600 $HOME/rsyncd/rsyncd.pass
 
       - name: Login to DockerHub
         uses: docker/login-action@v2
@@ -77,10 +77,10 @@ jobs:
 
       - name: Configure rsync passwd
         run: |
-          mkdir -p ~/rsyncd/
-          echo "root:${{ secrets.RSYNC_PASSWD }}" > ~/rsyncd/rsync.passwd
-          echo "${{ secrets.RSYNC_PASSWD }}" > ~/rsyncd/rsyncd.pass
-          chmod 600 ~/rsyncd/rsyncd.pass
+          mkdir -p $HOME/rsyncd/
+          echo "root:${{ secrets.RSYNC_PASSWD }}" > $HOME/rsyncd/rsync.passwd
+          echo "${{ secrets.RSYNC_PASSWD }}" > $HOME/rsyncd/rsyncd.pass
+          chmod 600 $HOME/rsyncd/rsyncd.pass
 
       - name: Login to DockerHub
         uses: docker/login-action@v2
