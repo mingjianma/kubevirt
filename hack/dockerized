@@ -75,7 +75,7 @@ printf "\n"
 rsynch_fail_count=0
 
 _rsync() {
-    rsync -al --password-file=/etc/rsyncd.pass "$@"
+    rsync -al --password-file=$HOME/rsyncd.pass "$@"
 }
 
 # Copy kubevirt into the persistent container volume
