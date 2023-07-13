@@ -3,12 +3,12 @@ name: Build x86 and arm Image
 on:
   pull_request:
     branches:
-      - exc-*
+      - develop6
   push:
     branches:
-      - ecx-*
+      - develop6
 env:
-  VERSION: v0.51.0.10
+  VERSION: v0.51.1.1111111
 
 jobs:
   build_x86:
