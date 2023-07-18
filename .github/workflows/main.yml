@@ -125,13 +125,13 @@ jobs:
           export DOCKER_PREFIX=$HARBOR
           docker manifest create $HARBOR/ecf-edge/kubevirt/${{ matrix.docekr_image }}:$DOCKER_PREFIX_TAG $HARBOR/ecf-edge/kubevirt/${{ matrix.docekr_image }}:$DOCKER_PREFIX_TAG-amd64 $HARBOR/ecf-edge/kubevirt/${{ matrix.docekr_image }}:$DOCKER_PREFIX_TAG-arm64
           docker manifest push $HARBOR/ecf-edge/kubevirt/${{ matrix.docekr_image }}:$DOCKER_PREFIX_TAG
-  push_manifest_master:
+  push_manifest_production:
     if: startsWith(github.ref_name, vars.PRO_BRANCH)
     runs-on: 
       group: Default
     env:
       REGISTRY: ${{ vars.PRO_REGISTRY }}
-    name: push master manifest list
+    name: push production manifest list
     needs: [ docker-image-production]
     strategy: # 矩阵策略
       matrix:
