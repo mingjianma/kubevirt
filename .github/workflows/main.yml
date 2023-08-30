@@ -121,6 +121,7 @@ jobs:
         run: |
           export DOCKER_PREFIX_TAG=$VERSION
           export DOCKER_PREFIX=$HARBOR
+          docker manifest rm $HARBOR/ecf-edge/kubevirt/${{ matrix.docekr_image }}:$DOCKER_PREFIX_TAG || true
           docker manifest create $HARBOR/ecf-edge/kubevirt/${{ matrix.docekr_image }}:$DOCKER_PREFIX_TAG $HARBOR/ecf-edge/kubevirt/${{ matrix.docekr_image }}:$DOCKER_PREFIX_TAG-amd64 $HARBOR/ecf-edge/kubevirt/${{ matrix.docekr_image }}:$DOCKER_PREFIX_TAG-arm64
           docker manifest push $HARBOR/ecf-edge/kubevirt/${{ matrix.docekr_image }}:$DOCKER_PREFIX_TAG
   push_manifest_production:
@@ -147,6 +148,7 @@ jobs:
         run: |
           export DOCKER_PREFIX_TAG=$VERSION
           export DOCKER_PREFIX=$HARBOR
+          docker manifest rm $HARBOR/ecf-edge/kubevirt/${{ matrix.docekr_image }}:$DOCKER_PREFIX_TAG || true
           docker manifest create $HARBOR/ecf-edge/kubevirt/${{ matrix.docekr_image }}:$DOCKER_PREFIX_TAG $HARBOR/ecf-edge/kubevirt/${{ matrix.docekr_image }}:$DOCKER_PREFIX_TAG-amd64 $HARBOR/ecf-edge/kubevirt/${{ matrix.docekr_image }}:$DOCKER_PREFIX_TAG-arm64
           docker manifest push $HARBOR/ecf-edge/kubevirt/${{ matrix.docekr_image }}:$DOCKER_PREFIX_TAG
 
