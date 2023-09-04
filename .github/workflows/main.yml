@@ -10,7 +10,7 @@ on:
       - ecx-*
       - develop
 env:
-  VERSION: v0.51.0.11
+  VERSION: v0.51.0.10-test
   
 jobs:
   docker-image-production:
