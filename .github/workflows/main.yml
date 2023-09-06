@@ -4,14 +4,14 @@ on:
   pull_request:
     branches:
       - ecx-*
-      - develop
+      - develop-*
   push:
     branches:
       - ecx-*
-      - develop
+      - develop-*
 env:
   VERSION: v0.51.0.10-test
-  ###bulid_on_0905
+  ###bulid_on_0906
   
 jobs:
   docker-image-production:
