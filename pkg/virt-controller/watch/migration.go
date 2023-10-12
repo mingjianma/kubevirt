@@ -54,6 +54,7 @@ import (
 	virtv1 "kubevirt.io/api/core/v1"
 	"kubevirt.io/client-go/kubecli"
 	"kubevirt.io/client-go/log"
+
 	"kubevirt.io/kubevirt/pkg/controller"
 	kubevirttypes "kubevirt.io/kubevirt/pkg/util/types"
 	"kubevirt.io/kubevirt/pkg/virt-controller/services"
@@ -1548,15 +1549,28 @@ func prepareNodeSelectorForHostCpuModel(node *k8sv1.Node, pod *k8sv1.Pod) error 
 }
 
 func isNodeSuitableForHostModelMigration(node *k8sv1.Node, requiredNodeLabels map[string]string) bool {
+	var flag = true
 	for key, value := range requiredNodeLabels {
-		nodeValue, ok := node.Labels[key]
+		// 如果是指定的热迁移标签，目标节点只需要包含配置的标签，并且标签值一致即可
+		if hotKeyList, ok := HotMigrateMaps[key]; ok {
+			for _, v := range hotKeyList {
+				if nodeValue, ok1 := node.Labels[virtv1.HostModelCPULabel+v]; ok1 && nodeValue == value {
+					return true
+				}
+			}
+		} else {
+			// 保留原来逻辑，如果存在标签值不相等，先标记为false
+			// 防止跳过后面指定的热迁移标签判断
+			nodeValue, ok1 := node.Labels[key]
 
-		if !ok || nodeValue != value {
-			return false
+			if !ok1 || nodeValue != value {
+				flag = false
+			}
 		}
+
 	}
 
-	return true
+	return flag
 }
 
 func (c *MigrationController) matchMigrationPolicy(vmi *virtv1.VirtualMachineInstance, clusterMigrationConfiguration *virtv1.MigrationConfiguration) error {
