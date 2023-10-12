@@ -1549,28 +1549,24 @@ func prepareNodeSelectorForHostCpuModel(node *k8sv1.Node, pod *k8sv1.Pod) error 
 }
 
 func isNodeSuitableForHostModelMigration(node *k8sv1.Node, requiredNodeLabels map[string]string) bool {
-	var flag = true
+	var suitable bool
 	for key, value := range requiredNodeLabels {
-		// 如果是指定的热迁移标签，目标节点只需要包含配置的标签，并且标签值一致即可
-		if hotKeyList, ok := HotMigrateMaps[key]; ok {
+		// 同型号迁移
+		if nodeValue, ok := node.Labels[key]; ok {
+			if nodeValue == value {
+				suitable = true
+			}
+		} else if hotKeyList, ok1 := AcrossHotMigrateMaps[key]; ok1 {
+			// 跨型号迁移
 			for _, v := range hotKeyList {
-				if nodeValue, ok1 := node.Labels[virtv1.HostModelCPULabel+v]; ok1 && nodeValue == value {
-					return true
+				if nodeValue1, ok2 := node.Labels[virtv1.HostModelCPULabel+v]; ok2 && nodeValue1 == value {
+					suitable = true
 				}
 			}
-		} else {
-			// 保留原来逻辑，如果存在标签值不相等，先标记为false
-			// 防止跳过后面指定的热迁移标签判断
-			nodeValue, ok1 := node.Labels[key]
-
-			if !ok1 || nodeValue != value {
-				flag = false
-			}
 		}
-
 	}
 
-	return flag
+	return suitable
 }
 
 func (c *MigrationController) matchMigrationPolicy(vmi *virtv1.VirtualMachineInstance, clusterMigrationConfiguration *virtv1.MigrationConfiguration) error {

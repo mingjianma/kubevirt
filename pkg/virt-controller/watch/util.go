@@ -19,16 +19,7 @@
 
 package watch
 
-var HotMigrateMaps = map[string][]string{
-	"host-model-cpu.node.kubevirt.io/Cascadelake-Server":  {"Cascadelake-Server", "Icelake-Server"},
-	"host-model-cpu.node.kubevirt.io/Icelake-Server":      {"Cascadelake-Server", "Icelake-Server"},
-	"host-model-cpu.node.kubevirt.io/Haswell-noTSX":       {"Haswell-noTSX", "Haswell-noTSX-IBRS"},
-	"host-model-cpu.node.kubevirt.io/Haswell-noTSX-IBRS":  {"Haswell-noTSX", "Haswell-noTSX-IBRS"},
-	"host-model-cpu.node.kubevirt.io/Broadwell-IBRS":      {"Broadwell-IBRS"},
-	"host-model-cpu.node.kubevirt.io/IvyBridge":           {"IvyBridge", "IvyBridge-IBRS"},
-	"host-model-cpu.node.kubevirt.io/IvyBridge-IBRS":      {"IvyBridge", "IvyBridge-IBRS"},
-	"host-model-cpu.node.kubevirt.io/EPYC-Milan":          {"EPYC-Milan"},
-	"host-model-cpu.node.kubevirt.io/Cooperlake":          {"Cooperlake", "EPYC"},
-	"host-model-cpu.node.kubevirt.io/EPYC":                {"Cooperlake", "EPYC"},
-	"host-model-cpu.node.kubevirt.io/Skylake-Server-IBRS": {"Skylake-Server-IBRS"},
+var AcrossHotMigrateMaps = map[string][]string{
+	"host-model-cpu.node.kubevirt.io/Cascadelake-Server": {"Icelake-Server"},
+	"host-model-cpu.node.kubevirt.io/Icelake-Server":     {"Cascadelake-Server"},
 }
